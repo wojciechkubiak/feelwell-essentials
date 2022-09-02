@@ -23,13 +23,13 @@ class NavigationButton extends StatelessWidget {
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.zero,
             side: BorderSide(
-              color: Colors.green,
-              width: 4,
+              color: Colors.white,
+              width: 2,
             ),
           ),
           primary: Colors.white,
           padding: const EdgeInsets.symmetric(
-            vertical: 42,
+            vertical: 32,
             horizontal: 12,
           ),
           elevation: 15,
@@ -42,9 +42,9 @@ class NavigationButton extends StatelessWidget {
               text,
               textAlign: TextAlign.center,
               style: GoogleFonts.bebasNeue(
-                fontSize: 18,
-                color: Colors.green,
-                fontWeight: FontWeight.w600,
+                fontSize: 22,
+                color: Colors.black54,
+                fontWeight: FontWeight.w400,
                 letterSpacing: 1,
               ),
             ),

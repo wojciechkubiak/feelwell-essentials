@@ -1,11 +1,15 @@
 import 'package:feelwell_essentials/pages/Intro.dart';
 import 'package:feelwell_essentials/pages/Menu.dart';
+import 'package:feelwell_essentials/services/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import './models/pages.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  StorageService storageService = StorageService();
+  storageService.getDatabase;
 
   runApp(const MyApp());
 }
@@ -22,7 +26,6 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor: Colors.green,
         body: Center(child: HomePage()),
       ),
     );
