@@ -6,7 +6,6 @@ class SettingsModel {
   int fastingStartMinutes;
   int exerciseLength;
   int meditationLength;
-  bool isProper;
 
   SettingsModel({
     required this.waterCapacity,
@@ -16,7 +15,6 @@ class SettingsModel {
     required this.fastingStartMinutes,
     required this.exerciseLength,
     required this.meditationLength,
-    this.isProper = false,
   });
 
   factory SettingsModel.fromJson(Map<String, dynamic> json) {
@@ -28,7 +26,6 @@ class SettingsModel {
       fastingStartMinutes: json['fastingStartMinutes'],
       exerciseLength: json['exerciseLength'],
       meditationLength: json['meditationLength'],
-      isProper: json['isProper'] ?? false,
     );
     return settings;
   }
@@ -42,7 +39,6 @@ class SettingsModel {
     data['fastingStartMinutes'] = fastingStartMinutes;
     data['exerciseLength'] = exerciseLength;
     data['meditationLength'] = meditationLength;
-    data['isProper'] = isProper;
     return data;
   }
 
@@ -54,6 +50,5 @@ class SettingsModel {
         fastingStartMinutes,
         exerciseLength,
         meditationLength,
-        isProper,
       ];
 }

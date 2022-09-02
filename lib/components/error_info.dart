@@ -12,7 +12,7 @@ class ErrorInfo extends StatelessWidget {
         'Something went wrong and your settings data could not get loaded. Try to clean your app storage or to reinstall your application',
         textAlign: TextAlign.center,
         style: GoogleFonts.bebasNeue(
-          fontSize: 12,
+          fontSize: 16,
           color: Colors.black54,
           fontWeight: FontWeight.w400,
           letterSpacing: 1,

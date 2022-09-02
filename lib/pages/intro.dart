@@ -1,3 +1,4 @@
+import 'package:feelwell_essentials/components/app_name.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,17 +18,10 @@ class Intro extends StatelessWidget {
         children: [
           Lottie.asset(
             'assets/lotties/loading.json',
+            height: 200,
+            width: 200,
           ),
-          Text(
-            'Feelwell Essentials',
-            textAlign: TextAlign.center,
-            style: GoogleFonts.bebasNeue(
-              fontSize: 62,
-              color: Colors.white,
-              fontWeight: FontWeight.w700,
-              fontStyle: FontStyle.italic,
-            ),
-          )
+          const AppName(),
         ],
       ),
     );

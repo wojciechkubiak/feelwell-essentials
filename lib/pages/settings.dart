@@ -238,71 +238,67 @@ class _SettingsState extends State<Settings> {
 
   Widget settingsBody(SettingsModel? settings) {
     if (settings is SettingsModel) {
-      if (settings.isProper) {
-        SettingsModel settingsCopy = settings;
+      SettingsModel settingsCopy = settings;
 
-        return SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 22.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                tilePicker(
-                  header: 'Glass size (ml)',
-                  tileOptions: ['250', '300', '330'],
-                  currentOption: settingsCopy.waterCapacity.toString(),
-                  onPressed: (option) {
-                    settingsCopy.waterCapacity = int.tryParse(option) ?? 250;
+      return SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 22.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              tilePicker(
+                header: 'Glass size (ml)',
+                tileOptions: ['250', '300', '330'],
+                currentOption: settingsCopy.waterCapacity.toString(),
+                onPressed: (option) {
+                  settingsCopy.waterCapacity = int.tryParse(option) ?? 250;
 
-                    setState(() {
-                      settings = settingsCopy;
-                    });
-                  },
-                ),
-                inputField(
-                  header: 'Daily water (ml)',
-                  label: 'Enter your water',
-                  controller: waterToDrinkController!,
-                ),
-                tilePicker(
-                  header: 'Fasting',
-                  tileOptions: ['12', '14', '16'],
-                  currentOption: settingsCopy.fastingLength.toString(),
-                  onPressed: (option) {
-                    settingsCopy.fastingLength = int.tryParse(option) ?? 12;
+                  setState(() {
+                    settings = settingsCopy;
+                  });
+                },
+              ),
+              inputField(
+                header: 'Daily water (ml)',
+                label: 'Enter your water',
+                controller: waterToDrinkController!,
+              ),
+              tilePicker(
+                header: 'Fasting',
+                tileOptions: ['12', '14', '16'],
+                currentOption: settingsCopy.fastingLength.toString(),
+                onPressed: (option) {
+                  settingsCopy.fastingLength = int.tryParse(option) ?? 12;
 
-                    setState(() {
-                      settings = settingsCopy;
-                    });
-                  },
-                ),
-                hourPicker(
-                  header: 'Fasting start',
-                  settingsData: settingsCopy,
-                  hourKey: 'fastingStartHour',
-                  minutesKey: 'fastingStartMinutes',
-                ),
-                inputField(
-                  header: 'Exercise length (min)',
-                  label: 'Enter your length',
-                  controller: exerciseLengthController!,
-                ),
-                inputField(
-                  header: 'Meditation length (min)',
-                  label: 'Enter your length',
-                  controller: meditationLengthController!,
-                ),
-              ],
-            ),
+                  setState(() {
+                    settings = settingsCopy;
+                  });
+                },
+              ),
+              hourPicker(
+                header: 'Fasting start',
+                settingsData: settingsCopy,
+                hourKey: 'fastingStartHour',
+                minutesKey: 'fastingStartMinutes',
+              ),
+              inputField(
+                header: 'Exercise length (min)',
+                label: 'Enter your length',
+                controller: exerciseLengthController!,
+              ),
+              inputField(
+                header: 'Meditation length (min)',
+                label: 'Enter your length',
+                controller: meditationLengthController!,
+              ),
+            ],
           ),
-        );
-      }
-
-      return const ErrorInfo();
+        ),
+      );
     }
 
-    return const Loader();
+    return const Center(child: Loader());
   }
 
   @override

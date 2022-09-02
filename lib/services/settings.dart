@@ -33,7 +33,6 @@ class SettingsService extends DataSettingsService {
 
       if (settingsList.isNotEmpty) {
         SettingsModel settings = SettingsModel.fromJson(settingsList[0]);
-        settings.isProper = true;
         return settings;
       }
 
@@ -56,7 +55,6 @@ class SettingsService extends DataSettingsService {
           await db.insert('settings', _defaultSettings.toJson()).then(
         (value) {
           print('INSERTED ${_defaultSettings.toJson()}');
-          settings.isProper = true;
           return settings;
         },
       );

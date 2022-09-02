@@ -6,6 +6,7 @@ class NavigationButton extends StatelessWidget {
   final String text;
   final void Function(BuildContext context, Widget route) onPressed;
   final Widget route;
+  final bool isFilled;
 
   const NavigationButton({
     Key? key,
@@ -13,6 +14,7 @@ class NavigationButton extends StatelessWidget {
     required this.text,
     required this.onPressed,
     required this.route,
+    this.isFilled = false,
   }) : super(key: key);
 
   @override
@@ -27,7 +29,7 @@ class NavigationButton extends StatelessWidget {
               width: 2,
             ),
           ),
-          primary: Colors.white,
+          primary: isFilled ? Colors.green : Colors.white,
           padding: const EdgeInsets.symmetric(
             vertical: 32,
             horizontal: 12,
@@ -41,17 +43,16 @@ class NavigationButton extends StatelessWidget {
             Text(
               text,
               textAlign: TextAlign.center,
-              style: GoogleFonts.bebasNeue(
-                fontSize: 22,
-                color: Colors.black54,
+              style: GoogleFonts.poppins(
+                fontSize: 18,
+                color: isFilled ? Colors.white : Colors.black54,
                 fontWeight: FontWeight.w400,
-                letterSpacing: 1,
               ),
             ),
             Icon(
               icon,
-              size: 42,
-              color: Colors.green,
+              size: 52,
+              color: isFilled ? Colors.white : Colors.green,
             )
           ],
         ),
