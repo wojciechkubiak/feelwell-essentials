@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class NavigationButton extends StatelessWidget {
-  final IconData icon;
   final String text;
   final void Function(BuildContext context, Widget route) onPressed;
   final Widget route;
   final bool isFilled;
+  final IconData? icon;
 
   const NavigationButton({
     Key? key,
-    required this.icon,
     required this.text,
     required this.onPressed,
     required this.route,
     this.isFilled = false,
+    this.icon,
   }) : super(key: key);
 
   @override
@@ -49,11 +49,12 @@ class NavigationButton extends StatelessWidget {
                 fontWeight: FontWeight.w400,
               ),
             ),
-            Icon(
-              icon,
-              size: 52,
-              color: isFilled ? Colors.white : Colors.green,
-            )
+            if (icon is IconData)
+              Icon(
+                icon,
+                size: 52,
+                color: isFilled ? Colors.white : Colors.green,
+              )
           ],
         ),
       ),

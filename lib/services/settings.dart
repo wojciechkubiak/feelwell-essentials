@@ -7,10 +7,12 @@ import 'package:sqflite/sqflite.dart';
 abstract class DataSettingsService {
   Future<SettingsModel> initSettings({required Database db});
   Future<SettingsModel> getSettings();
+  Future<bool> updateSettings({required SettingsModel settingsModel});
 }
 
 class SettingsService extends DataSettingsService {
   final SettingsModel _defaultSettings = SettingsModel(
+    id: 1,
     waterCapacity: 250,
     waterToDrink: 2000,
     fastingLength: 14,
@@ -63,6 +65,44 @@ class SettingsService extends DataSettingsService {
     } catch (e) {
       print(e.toString());
       return _defaultSettings;
+    }
+  }
+
+  @override
+  Future<bool> updateSettings({required SettingsModel settingsModel}) async {
+    StorageService storageService = StorageService();
+
+    try {
+      final db = await storageService.getDatabase();
+
+      SettingsModel currentSettings = await getSettings();
+      int currentId = currentSettings.id;
+
+      int count = await db.rawUpdate(
+        '''UPDATE settings SET waterCapacity = ?, 
+        waterToDrink = ?, 
+        fastingLength = ?, 
+        fastingStartHour = ?, 
+        fastingStartMinutes = ?, 
+        exerciseLength = ?, 
+        meditationLength = ? 
+        WHERE id = ?''',
+        [
+          settingsModel.waterCapacity,
+          settingsModel.waterToDrink,
+          settingsModel.fastingLength,
+          settingsModel.fastingStartHour,
+          settingsModel.fastingStartMinutes,
+          settingsModel.exerciseLength,
+          settingsModel.meditationLength,
+          currentId
+        ],
+      );
+
+      return count > 0;
+    } catch (e) {
+      print(e.toString());
+      return false;
     }
   }
 }

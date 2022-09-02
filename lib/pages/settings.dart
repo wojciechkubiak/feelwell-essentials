@@ -1,3 +1,4 @@
+import 'package:feelwell_essentials/components/button.dart';
 import 'package:flutter/material.dart';
 import 'package:feelwell_essentials/components/error_info.dart';
 import 'package:feelwell_essentials/components/loader.dart';
@@ -16,6 +17,7 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   SettingsModel? settings;
+  SettingsService? settingsService;
 
   TextEditingController? waterToDrinkController;
   TextEditingController? fastingStart;
@@ -49,21 +51,25 @@ class _SettingsState extends State<Settings> {
   }
 
   void loadSettings() async {
-    SettingsService settingsService = SettingsService();
-    SettingsModel settingsData = await settingsService.getSettings();
+    SettingsService settingsServ = SettingsService();
+    SettingsModel settingsData = await settingsServ.getSettings();
+
     waterToDrinkController =
         TextEditingController(text: settingsData.waterToDrink.toString());
     fastingStart = TextEditingController(
       text:
           '${settingsData.fastingStartHour}:${settingsData.fastingStartMinutes}',
     );
-    exerciseLengthController =
-        TextEditingController(text: settingsData.exerciseLength.toString());
-    meditationLengthController =
-        TextEditingController(text: settingsData.meditationLength.toString());
+    exerciseLengthController = TextEditingController(
+      text: (settingsData.exerciseLength / 60).toStringAsFixed(0),
+    );
+    meditationLengthController = TextEditingController(
+      text: (settingsData.meditationLength / 60).toStringAsFixed(0),
+    );
 
     setState(() {
       settings = settingsData;
+      settingsService = settingsServ;
     });
   }
 
@@ -233,7 +239,7 @@ class _SettingsState extends State<Settings> {
   }
 
   Widget settingsBody(SettingsModel? settings) {
-    if (settings is SettingsModel) {
+    if (settings is SettingsModel && settingsService is SettingsService) {
       SettingsModel settingsCopy = settings;
 
       return SingleChildScrollView(
@@ -288,6 +294,34 @@ class _SettingsState extends State<Settings> {
                 label: 'Wprowadź długość',
                 controller: meditationLengthController!,
               ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 32.0),
+                child: Button(
+                  text: 'Zatwierdź',
+                  onPressed: () async {
+                    int? waterToDrink =
+                        int.tryParse(waterToDrinkController!.value.text);
+                    if (waterToDrink is int) {
+                      settingsCopy.waterToDrink = waterToDrink;
+                    }
+
+                    int? exerciseLength =
+                        int.tryParse(exerciseLengthController!.value.text);
+                    if (exerciseLength is int) {
+                      settingsCopy.exerciseLength = exerciseLength * 60;
+                    }
+
+                    int? meditationLength =
+                        int.tryParse(meditationLengthController!.value.text);
+                    if (meditationLength is int) {
+                      settingsCopy.meditationLength = meditationLength * 60;
+                    }
+
+                    await settingsService!
+                        .updateSettings(settingsModel: settingsCopy);
+                  },
+                ),
+              )
             ],
           ),
         ),
