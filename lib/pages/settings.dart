@@ -81,10 +81,9 @@ class _SettingsState extends State<Settings> {
             '$header :',
             textAlign: TextAlign.center,
             style: GoogleFonts.poppins(
-              fontSize: 24,
+              fontSize: 20,
               color: Colors.black87,
               fontWeight: FontWeight.w300,
-              letterSpacing: 1,
             ),
           ),
           const SizedBox(
@@ -143,7 +142,7 @@ class _SettingsState extends State<Settings> {
               '$header :',
               textAlign: TextAlign.center,
               style: GoogleFonts.poppins(
-                fontSize: 24,
+                fontSize: 20,
                 color: Colors.black87,
                 fontWeight: FontWeight.w300,
               ),
@@ -156,6 +155,7 @@ class _SettingsState extends State<Settings> {
               color: Colors.black54,
               fontWeight: FontWeight.w600,
             ),
+            cursorColor: Colors.green,
             decoration: InputDecoration(
               labelText: label,
               labelStyle: const TextStyle(color: Colors.green),
@@ -167,7 +167,7 @@ class _SettingsState extends State<Settings> {
                 borderRadius: BorderRadius.circular(20),
                 borderSide: const BorderSide(color: Colors.green, width: 2),
               ),
-              hintText: 'Enter a search term',
+              hintText: 'Wpisz oczekiwaną wartość',
             ),
             keyboardType: TextInputType.number,
             inputFormatters: <TextInputFormatter>[
@@ -197,7 +197,7 @@ class _SettingsState extends State<Settings> {
               '$header :',
               textAlign: TextAlign.center,
               style: GoogleFonts.poppins(
-                fontSize: 24,
+                fontSize: 20,
                 color: Colors.black87,
                 fontWeight: FontWeight.w300,
               ),
@@ -218,16 +218,12 @@ class _SettingsState extends State<Settings> {
                 });
               }
             },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 22),
-              child: Text(
-                '${settingsJson[hourKey]}:${settingsJson[minutesKey]}',
-                style: GoogleFonts.bebasNeue(
-                  fontSize: 72,
-                  color: Colors.black54,
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 1,
-                ),
+            child: Text(
+              '${settingsJson[hourKey]}:${settingsJson[minutesKey]}',
+              style: GoogleFonts.bebasNeue(
+                fontSize: 72,
+                color: Colors.black54,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ),
@@ -248,7 +244,7 @@ class _SettingsState extends State<Settings> {
             mainAxisSize: MainAxisSize.max,
             children: [
               tilePicker(
-                header: 'Glass size (ml)',
+                header: 'Rozmiar szklanki (ml)',
                 tileOptions: ['250', '300', '330'],
                 currentOption: settingsCopy.waterCapacity.toString(),
                 onPressed: (option) {
@@ -260,12 +256,12 @@ class _SettingsState extends State<Settings> {
                 },
               ),
               inputField(
-                header: 'Daily water (ml)',
-                label: 'Enter your water',
+                header: 'Dzienna dawka wody (ml)',
+                label: 'Wprowadź ilość',
                 controller: waterToDrinkController!,
               ),
               tilePicker(
-                header: 'Fasting',
+                header: 'Długość postu',
                 tileOptions: ['12', '14', '16'],
                 currentOption: settingsCopy.fastingLength.toString(),
                 onPressed: (option) {
@@ -277,19 +273,19 @@ class _SettingsState extends State<Settings> {
                 },
               ),
               hourPicker(
-                header: 'Fasting start',
+                header: 'Początek postu',
                 settingsData: settingsCopy,
                 hourKey: 'fastingStartHour',
                 minutesKey: 'fastingStartMinutes',
               ),
               inputField(
-                header: 'Exercise length (min)',
-                label: 'Enter your length',
+                header: 'Długość ćwiczenia (min)',
+                label: 'Wprowadź długość',
                 controller: exerciseLengthController!,
               ),
               inputField(
-                header: 'Meditation length (min)',
-                label: 'Enter your length',
+                header: 'Długość medytacji (min)',
+                label: 'Wprowadź długość',
                 controller: meditationLengthController!,
               ),
             ],
@@ -304,7 +300,7 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldWrapper(
-      title: 'Settings',
+      title: 'Ustawienia',
       body: settingsBody(settings),
     );
   }

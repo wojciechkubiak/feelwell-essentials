@@ -34,7 +34,7 @@ class Menu extends StatelessWidget {
                   children: [
                     NavigationButton(
                       icon: Icons.directions_run_outlined,
-                      text: 'Exercise',
+                      text: 'Ćwiczenie',
                       route: const Exercise(),
                       onPressed: onRouteChange,
                     ),
@@ -43,7 +43,7 @@ class Menu extends StatelessWidget {
                     ),
                     NavigationButton(
                       icon: Icons.food_bank_outlined,
-                      text: 'Fasting',
+                      text: 'Post',
                       route: const Fasting(),
                       onPressed: onRouteChange,
                     ),
@@ -58,7 +58,7 @@ class Menu extends StatelessWidget {
                   children: [
                     NavigationButton(
                       icon: Icons.water_drop_outlined,
-                      text: 'Water',
+                      text: 'Woda',
                       route: const Water(),
                       onPressed: onRouteChange,
                     ),
@@ -67,7 +67,7 @@ class Menu extends StatelessWidget {
                     ),
                     NavigationButton(
                       icon: Icons.air_sharp,
-                      text: 'Meditation',
+                      text: 'Medytacja',
                       route: const Meditation(),
                       onPressed: onRouteChange,
                     ),
@@ -83,7 +83,7 @@ class Menu extends StatelessWidget {
                     children: [
                       NavigationButton(
                         icon: Icons.settings,
-                        text: 'Settings',
+                        text: 'Ustawienia',
                         route: const Settings(),
                         onPressed: onRouteChange,
                         isFilled: true,

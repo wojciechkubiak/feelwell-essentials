@@ -22,10 +22,9 @@ class ScaffoldWrapper extends StatelessWidget {
         title: Text(
           title,
           style: GoogleFonts.poppins(
-            fontSize: 14,
+            fontSize: 18,
             color: Colors.black87,
             fontWeight: FontWeight.w400,
-            letterSpacing: 1,
           ),
         ),
         backgroundColor: Colors.white,

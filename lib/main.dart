@@ -23,9 +23,15 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
 
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+        textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: Colors.green,
+        ),
+      ),
+      home: const Scaffold(
         body: Center(child: HomePage()),
       ),
     );
@@ -44,7 +50,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 5), () {
       setState(() {
         currentPage = Pages.menu;
       });
