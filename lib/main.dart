@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home: const Scaffold(
+        extendBody: true,
         body: Center(child: HomePage()),
       ),
     );
