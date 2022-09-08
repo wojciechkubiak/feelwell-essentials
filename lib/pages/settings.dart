@@ -1,6 +1,6 @@
 import 'package:feelwell_essentials/components/button.dart';
+import 'package:feelwell_essentials/services/water.dart';
 import 'package:flutter/material.dart';
-import 'package:feelwell_essentials/components/error_info.dart';
 import 'package:feelwell_essentials/components/loader.dart';
 import 'package:feelwell_essentials/components/scaffold_wrapper.dart';
 import 'package:feelwell_essentials/models/settings.dart';
@@ -16,8 +16,9 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  SettingsService settingsService = SettingsService();
+  WaterService waterService = WaterService();
   SettingsModel? settings;
-  SettingsService? settingsService;
 
   TextEditingController? waterToDrinkController;
   TextEditingController? fastingStart;
@@ -51,8 +52,7 @@ class _SettingsState extends State<Settings> {
   }
 
   void loadSettings() async {
-    SettingsService settingsServ = SettingsService();
-    SettingsModel settingsData = await settingsServ.getSettings();
+    SettingsModel settingsData = await settingsService.getSettings();
 
     waterToDrinkController =
         TextEditingController(text: settingsData.waterToDrink.toString());
@@ -69,7 +69,6 @@ class _SettingsState extends State<Settings> {
 
     setState(() {
       settings = settingsData;
-      settingsService = settingsServ;
     });
   }
 
@@ -239,7 +238,7 @@ class _SettingsState extends State<Settings> {
   }
 
   Widget settingsBody(SettingsModel? settings) {
-    if (settings is SettingsModel && settingsService is SettingsService) {
+    if (settings is SettingsModel) {
       SettingsModel settingsCopy = settings;
 
       return SingleChildScrollView(
@@ -317,8 +316,10 @@ class _SettingsState extends State<Settings> {
                       settingsCopy.meditationLength = meditationLength * 60;
                     }
 
-                    await settingsService!
-                        .updateSettings(settingsModel: settingsCopy);
+                    await settingsService.updateSettings(
+                        settingsModel: settingsCopy);
+                    await waterService.updateWaterToDrink(
+                        toDrink: settingsCopy.waterToDrink);
                   },
                 ),
               )

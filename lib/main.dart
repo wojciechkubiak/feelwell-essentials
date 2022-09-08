@@ -1,8 +1,12 @@
+import 'package:feelwell_essentials/blocs/home/home_bloc.dart';
 import 'package:feelwell_essentials/pages/Intro.dart';
 import 'package:feelwell_essentials/pages/Menu.dart';
+import 'package:feelwell_essentials/services/settings.dart';
 import 'package:feelwell_essentials/services/storage.dart';
+import 'package:feelwell_essentials/services/water.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import './models/pages.dart';
 
 Future<void> main() async {
@@ -33,43 +37,77 @@ class MyApp extends StatelessWidget {
       ),
       home: const Scaffold(
         extendBody: true,
-        body: Center(child: HomePage()),
+        body: Center(child: MyHomePage()),
       ),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _MyHomePageState extends State<MyHomePage> {
   Pages currentPage = Pages.intro;
 
-  @override
-  void initState() {
-    Future.delayed(const Duration(seconds: 5), () {
-      setState(() {
-        currentPage = Pages.menu;
-      });
-    });
-    super.initState();
+  Widget _repositoryProvider() {
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<SettingsService>(
+          create: (context) {
+            return SettingsService();
+          },
+        ),
+        RepositoryProvider<WaterService>(
+          create: (context) {
+            return WaterService();
+          },
+        ),
+      ],
+      child: _multiBlocProvider(),
+    );
+  }
+
+  Widget _multiBlocProvider() {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<HomeBloc>(
+          create: (context) {
+            final settingsService =
+                RepositoryProvider.of<SettingsService>(context);
+            final waterService = RepositoryProvider.of<WaterService>(context);
+
+            return HomeBloc(
+              waterService,
+              settingsService,
+            )..add(HomeShowPage());
+          },
+        ),
+      ],
+      child: _blocBuilder(),
+    );
+  }
+
+  Widget _blocBuilder() {
+    return BlocBuilder<HomeBloc, HomeState>(
+      builder: (context, state) {
+        print(state is HomePage);
+        if (state is HomePage) {
+          return const Menu();
+        }
+        if (state is HomeSplash) {
+          return const Intro();
+        }
+        return const Intro();
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return _currentPage(currentPage);
-  }
-}
-
-Widget _currentPage(Pages page) {
-  switch (page) {
-    case Pages.menu:
-      return const Menu();
-    default:
-      return const Intro();
+    return _repositoryProvider();
   }
 }

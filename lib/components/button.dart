@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Button extends StatelessWidget {
   final String text;
   final void Function() onPressed;
+  final Color backgroundColor;
+  final Color textColor;
 
   const Button({
     Key? key,
     required this.text,
     required this.onPressed,
+    this.backgroundColor = Colors.green,
+    this.textColor = Colors.white,
   }) : super(key: key);
 
   @override
@@ -24,7 +26,7 @@ class Button extends StatelessWidget {
             width: 2,
           ),
         ),
-        primary: Colors.green,
+        backgroundColor: backgroundColor,
         padding: const EdgeInsets.symmetric(
           vertical: 12,
           horizontal: 32,
@@ -37,7 +39,7 @@ class Button extends StatelessWidget {
         textAlign: TextAlign.center,
         style: GoogleFonts.poppins(
           fontSize: 18,
-          color: Colors.white,
+          color: textColor,
           fontWeight: FontWeight.w400,
         ),
       ),
