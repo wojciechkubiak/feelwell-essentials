@@ -7,7 +7,6 @@ class Exercise extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScaffoldWrapper(
-      title: 'Exercise',
       body: Center(
         child: ElevatedButton(
           child: const Text('Open route'),

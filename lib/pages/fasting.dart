@@ -7,7 +7,6 @@ class Fasting extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScaffoldWrapper(
-      title: 'Fasting',
       body: Center(
         child: ElevatedButton(
           child: const Text('Open route'),

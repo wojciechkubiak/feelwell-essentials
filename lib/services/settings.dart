@@ -52,11 +52,9 @@ class SettingsService extends DataSettingsService {
       SettingsModel? existingSettings = await getSettings();
 
       if (existingSettings is SettingsModel) {
-        print(4);
         return existingSettings;
       }
 
-      print(3);
       StorageService storageService = StorageService();
       final db = await storageService.getDatabase();
 

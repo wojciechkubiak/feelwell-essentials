@@ -51,14 +51,13 @@ class WaterService extends DataWaterService {
       List<Map<String, dynamic>> waterList = [];
 
       waterList = await db.rawQuery(
-          "SELECT * FROM settings WHERE id = ? ORDER BY id DESC LIMIT 1", [id]);
+          "SELECT * FROM water WHERE id = ? ORDER BY id DESC LIMIT 1", [id]);
 
       if (waterList.isNotEmpty) {
         WaterModel water = WaterModel.fromJson(waterList[0]);
         return water;
       }
 
-      print('DD YO');
       return await initWaterRecord();
     } catch (e) {
       print(e.toString());

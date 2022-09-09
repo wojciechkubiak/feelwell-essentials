@@ -44,8 +44,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       } else {
         emit(HomeError());
       }
-
-      print(2);
     } catch (e) {
       print(e.toString());
       emit(HomeError());

@@ -54,21 +54,21 @@ class _SettingsState extends State<Settings> {
   }
 
   void loadSettings() async {
-    SettingsModel _settings = widget.settings;
+    SettingsModel settings = widget.settings;
     waterToDrinkController =
-        TextEditingController(text: _settings.waterToDrink.toString());
+        TextEditingController(text: settings.waterToDrink.toString());
     fastingStart = TextEditingController(
-      text: '${_settings.fastingStartHour}:${_settings.fastingStartMinutes}',
+      text: '${settings.fastingStartHour}:${settings.fastingStartMinutes}',
     );
     exerciseLengthController = TextEditingController(
-      text: (_settings.exerciseLength / 60).toStringAsFixed(0),
+      text: (settings.exerciseLength / 60).toStringAsFixed(0),
     );
     meditationLengthController = TextEditingController(
-      text: (_settings.meditationLength / 60).toStringAsFixed(0),
+      text: (settings.meditationLength / 60).toStringAsFixed(0),
     );
 
     setState(() {
-      settingsCopy = _settings;
+      settingsCopy = settings;
     });
   }
 
@@ -87,7 +87,7 @@ class _SettingsState extends State<Settings> {
             textAlign: TextAlign.center,
             style: GoogleFonts.poppins(
               fontSize: 20,
-              color: Colors.black87,
+              color: Colors.white,
               fontWeight: FontWeight.w300,
             ),
           ),
@@ -107,7 +107,7 @@ class _SettingsState extends State<Settings> {
                         width: 2,
                       ),
                     ),
-                    primary:
+                    backgroundColor:
                         currentOption == option ? Colors.green : Colors.white,
                     padding: const EdgeInsets.symmetric(
                       vertical: 12,
@@ -148,7 +148,7 @@ class _SettingsState extends State<Settings> {
               textAlign: TextAlign.center,
               style: GoogleFonts.poppins(
                 fontSize: 20,
-                color: Colors.black87,
+                color: Colors.white,
                 fontWeight: FontWeight.w300,
               ),
             ),
@@ -156,21 +156,21 @@ class _SettingsState extends State<Settings> {
           TextField(
             textAlign: TextAlign.center,
             style: GoogleFonts.poppins(
-              fontSize: 16,
-              color: Colors.black54,
+              fontSize: 22,
+              color: Colors.white,
               fontWeight: FontWeight.w600,
             ),
-            cursorColor: Colors.green,
+            cursorColor: Colors.white,
             decoration: InputDecoration(
               labelText: label,
-              labelStyle: const TextStyle(color: Colors.green),
+              labelStyle: const TextStyle(color: Colors.white),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
-                borderSide: const BorderSide(color: Colors.black, width: 1),
+                borderSide: const BorderSide(color: Colors.white, width: 1),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
-                borderSide: const BorderSide(color: Colors.green, width: 2),
+                borderSide: const BorderSide(color: Colors.white, width: 2),
               ),
               hintText: 'Wpisz oczekiwaną wartość',
             ),
@@ -203,7 +203,7 @@ class _SettingsState extends State<Settings> {
               textAlign: TextAlign.center,
               style: GoogleFonts.poppins(
                 fontSize: 20,
-                color: Colors.black87,
+                color: Colors.white,
                 fontWeight: FontWeight.w300,
               ),
             ),
@@ -227,7 +227,7 @@ class _SettingsState extends State<Settings> {
               '${settingsJson[hourKey]}:${settingsJson[minutesKey]}',
               style: GoogleFonts.bebasNeue(
                 fontSize: 72,
-                color: Colors.black54,
+                color: Colors.white,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -242,7 +242,6 @@ class _SettingsState extends State<Settings> {
     SettingsModel settings = settingsCopy;
 
     return ScaffoldWrapper(
-      title: 'Ustawienia',
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 22.0),

@@ -7,7 +7,6 @@ class Meditation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScaffoldWrapper(
-      title: 'Meditation',
       body: Center(
         child: ElevatedButton(
           child: const Text('Open route'),

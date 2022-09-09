@@ -1,8 +1,10 @@
 import 'package:feelwell_essentials/blocs/home/home_bloc.dart';
 import 'package:feelwell_essentials/pages/Intro.dart';
 import 'package:feelwell_essentials/pages/Menu.dart';
+import 'package:feelwell_essentials/pages/error_page.dart';
 import 'package:feelwell_essentials/pages/exercise.dart';
 import 'package:feelwell_essentials/pages/fasting.dart';
+import 'package:feelwell_essentials/pages/loading.dart';
 import 'package:feelwell_essentials/pages/meditation.dart';
 import 'package:feelwell_essentials/pages/settings.dart';
 import 'package:feelwell_essentials/pages/water.dart';
@@ -35,9 +37,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.blueGrey,
         textSelectionTheme: const TextSelectionThemeData(
-          cursorColor: Colors.green,
+          cursorColor: Colors.white,
         ),
       ),
       home: const Scaffold(
@@ -99,12 +101,11 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _blocBuilder() {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
-        print(state);
         if (state is HomePage) {
           return const Menu();
         }
         if (state is HomeLoading) {
-          return const Intro();
+          return const Loading();
         }
         if (state is HomeExercise) {
           return const Exercise();
@@ -124,6 +125,9 @@ class _MyHomePageState extends State<MyHomePage> {
           return Settings(
             settings: state.settings,
           );
+        }
+        if (state is HomeError) {
+          return const ErrorPage();
         }
 
         return const Intro();
