@@ -6,13 +6,12 @@ import 'package:feelwell_essentials/pages/meditation.dart';
 import 'package:feelwell_essentials/pages/settings.dart';
 import 'package:feelwell_essentials/pages/water.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../blocs/home/home_bloc.dart';
 
 class Menu extends StatelessWidget {
   const Menu({Key? key}) : super(key: key);
-
-  void onRouteChange(BuildContext context, Widget route) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => route));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +34,9 @@ class Menu extends StatelessWidget {
                     NavigationButton(
                       icon: Icons.directions_run_outlined,
                       text: 'Ćwiczenie',
-                      route: const Exercise(),
-                      onPressed: onRouteChange,
+                      onPressed: () => BlocProvider.of<HomeBloc>(context).add(
+                        HomeShowWater(),
+                      ),
                     ),
                     const SizedBox(
                       width: 10,
@@ -44,8 +44,9 @@ class Menu extends StatelessWidget {
                     NavigationButton(
                       icon: Icons.food_bank_outlined,
                       text: 'Post',
-                      route: const Fasting(),
-                      onPressed: onRouteChange,
+                      onPressed: () => BlocProvider.of<HomeBloc>(context).add(
+                        HomeShowWater(),
+                      ),
                     ),
                   ],
                 ),
@@ -59,8 +60,9 @@ class Menu extends StatelessWidget {
                     NavigationButton(
                       icon: Icons.water_drop_outlined,
                       text: 'Woda',
-                      route: const Water(),
-                      onPressed: onRouteChange,
+                      onPressed: () => BlocProvider.of<HomeBloc>(context).add(
+                        HomeShowWater(),
+                      ),
                     ),
                     const SizedBox(
                       width: 10,
@@ -68,8 +70,9 @@ class Menu extends StatelessWidget {
                     NavigationButton(
                       icon: Icons.air_sharp,
                       text: 'Medytacja',
-                      route: const Meditation(),
-                      onPressed: onRouteChange,
+                      onPressed: () => BlocProvider.of<HomeBloc>(context).add(
+                        HomeShowWater(),
+                      ),
                     ),
                   ],
                 ),
@@ -84,8 +87,9 @@ class Menu extends StatelessWidget {
                       NavigationButton(
                         icon: Icons.settings,
                         text: 'Ustawienia',
-                        route: const Settings(),
-                        onPressed: onRouteChange,
+                        onPressed: () => BlocProvider.of<HomeBloc>(context).add(
+                          HomeShowSettings(),
+                        ),
                         isFilled: true,
                       ),
                     ],

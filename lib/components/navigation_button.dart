@@ -2,17 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class NavigationButton extends StatelessWidget {
+  final void Function() onPressed;
   final String text;
-  final void Function(BuildContext context, Widget route) onPressed;
-  final Widget route;
   final bool isFilled;
   final IconData? icon;
 
   const NavigationButton({
     Key? key,
-    required this.text,
     required this.onPressed,
-    required this.route,
+    required this.text,
     this.isFilled = false,
     this.icon,
   }) : super(key: key);
@@ -36,7 +34,7 @@ class NavigationButton extends StatelessWidget {
           ),
           elevation: 15,
         ),
-        onPressed: () => onPressed(context, route),
+        onPressed: onPressed,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [

@@ -20,22 +20,26 @@ class WaterService extends DataWaterService {
     int id = Ids.getRecordId();
     final db = await storageService.getDatabase();
 
-    SettingsModel settings = await settingsService.getSettings();
+    SettingsModel? settings = await settingsService.getSettings();
 
-    WaterModel defaultWater = WaterModel(
-      id: id,
-      drunk: 0,
-      toDrink: settings.waterToDrink,
-    );
+    if (settings is SettingsModel) {
+      WaterModel defaultWater = WaterModel(
+        id: id,
+        drunk: 0,
+        toDrink: settings.waterToDrink,
+      );
 
-    WaterModel water = await db.insert('water', defaultWater.toJson()).then(
-      (value) {
-        print('INSERTED ${defaultWater.toJson()}');
-        return defaultWater;
-      },
-    );
+      WaterModel water = await db.insert('water', defaultWater.toJson()).then(
+        (value) {
+          print('INSERTED ${defaultWater.toJson()}');
+          return defaultWater;
+        },
+      );
 
-    return water;
+      return water;
+    }
+
+    return null;
   }
 
   @override

@@ -1,6 +1,11 @@
 import 'package:feelwell_essentials/blocs/home/home_bloc.dart';
 import 'package:feelwell_essentials/pages/Intro.dart';
 import 'package:feelwell_essentials/pages/Menu.dart';
+import 'package:feelwell_essentials/pages/exercise.dart';
+import 'package:feelwell_essentials/pages/fasting.dart';
+import 'package:feelwell_essentials/pages/meditation.dart';
+import 'package:feelwell_essentials/pages/settings.dart';
+import 'package:feelwell_essentials/pages/water.dart';
 import 'package:feelwell_essentials/services/settings.dart';
 import 'package:feelwell_essentials/services/storage.dart';
 import 'package:feelwell_essentials/services/water.dart';
@@ -94,13 +99,33 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _blocBuilder() {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
-        print(state is HomePage);
+        print(state);
         if (state is HomePage) {
           return const Menu();
         }
-        if (state is HomeSplash) {
+        if (state is HomeLoading) {
           return const Intro();
         }
+        if (state is HomeExercise) {
+          return const Exercise();
+        }
+        if (state is HomeFasting) {
+          return const Fasting();
+        }
+        if (state is HomeWater) {
+          return Water(
+            water: state.water,
+          );
+        }
+        if (state is HomeMeditation) {
+          return const Meditation();
+        }
+        if (state is HomeSettings) {
+          return Settings(
+            settings: state.settings,
+          );
+        }
+
         return const Intro();
       },
     );

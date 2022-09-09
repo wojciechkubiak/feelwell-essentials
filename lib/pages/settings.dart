@@ -9,16 +9,18 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Settings extends StatefulWidget {
-  const Settings({super.key});
+  final SettingsModel settings;
+
+  const Settings({super.key, required this.settings});
 
   @override
   State<Settings> createState() => _SettingsState();
 }
 
 class _SettingsState extends State<Settings> {
+  late SettingsModel settingsCopy;
   SettingsService settingsService = SettingsService();
   WaterService waterService = WaterService();
-  SettingsModel? settings;
 
   TextEditingController? waterToDrinkController;
   TextEditingController? fastingStart;
@@ -52,23 +54,21 @@ class _SettingsState extends State<Settings> {
   }
 
   void loadSettings() async {
-    SettingsModel settingsData = await settingsService.getSettings();
-
+    SettingsModel _settings = widget.settings;
     waterToDrinkController =
-        TextEditingController(text: settingsData.waterToDrink.toString());
+        TextEditingController(text: _settings.waterToDrink.toString());
     fastingStart = TextEditingController(
-      text:
-          '${settingsData.fastingStartHour}:${settingsData.fastingStartMinutes}',
+      text: '${_settings.fastingStartHour}:${_settings.fastingStartMinutes}',
     );
     exerciseLengthController = TextEditingController(
-      text: (settingsData.exerciseLength / 60).toStringAsFixed(0),
+      text: (_settings.exerciseLength / 60).toStringAsFixed(0),
     );
     meditationLengthController = TextEditingController(
-      text: (settingsData.meditationLength / 60).toStringAsFixed(0),
+      text: (_settings.meditationLength / 60).toStringAsFixed(0),
     );
 
     setState(() {
-      settings = settingsData;
+      settingsCopy = _settings;
     });
   }
 
@@ -219,7 +219,7 @@ class _SettingsState extends State<Settings> {
                 settingsJson[minutesKey] = newTime.minute;
 
                 setState(() {
-                  settings = SettingsModel.fromJson(settingsJson);
+                  settingsCopy = SettingsModel.fromJson(settingsJson);
                 });
               }
             },
@@ -237,11 +237,13 @@ class _SettingsState extends State<Settings> {
     );
   }
 
-  Widget settingsBody(SettingsModel? settings) {
-    if (settings is SettingsModel) {
-      SettingsModel settingsCopy = settings;
+  @override
+  Widget build(BuildContext context) {
+    SettingsModel settings = settingsCopy;
 
-      return SingleChildScrollView(
+    return ScaffoldWrapper(
+      title: 'Ustawienia',
+      body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 22.0),
           child: Column(
@@ -251,12 +253,12 @@ class _SettingsState extends State<Settings> {
               tilePicker(
                 header: 'Rozmiar szklanki (ml)',
                 tileOptions: ['250', '300', '330'],
-                currentOption: settingsCopy.waterCapacity.toString(),
+                currentOption: settings.waterCapacity.toString(),
                 onPressed: (option) {
-                  settingsCopy.waterCapacity = int.tryParse(option) ?? 250;
+                  settings.waterCapacity = int.tryParse(option) ?? 250;
 
                   setState(() {
-                    settings = settingsCopy;
+                    settingsCopy = settings;
                   });
                 },
               ),
@@ -268,12 +270,12 @@ class _SettingsState extends State<Settings> {
               tilePicker(
                 header: 'Długość postu',
                 tileOptions: ['12', '14', '16'],
-                currentOption: settingsCopy.fastingLength.toString(),
+                currentOption: settings.fastingLength.toString(),
                 onPressed: (option) {
-                  settingsCopy.fastingLength = int.tryParse(option) ?? 12;
+                  settings.fastingLength = int.tryParse(option) ?? 12;
 
                   setState(() {
-                    settings = settingsCopy;
+                    settingsCopy = settings;
                   });
                 },
               ),
@@ -301,42 +303,34 @@ class _SettingsState extends State<Settings> {
                     int? waterToDrink =
                         int.tryParse(waterToDrinkController!.value.text);
                     if (waterToDrink is int) {
-                      settingsCopy.waterToDrink = waterToDrink;
+                      settings.waterToDrink = waterToDrink;
                     }
 
                     int? exerciseLength =
                         int.tryParse(exerciseLengthController!.value.text);
                     if (exerciseLength is int) {
-                      settingsCopy.exerciseLength = exerciseLength * 60;
+                      settings.exerciseLength = exerciseLength * 60;
                     }
 
                     int? meditationLength =
                         int.tryParse(meditationLengthController!.value.text);
                     if (meditationLength is int) {
-                      settingsCopy.meditationLength = meditationLength * 60;
+                      settings.meditationLength = meditationLength * 60;
                     }
 
                     await settingsService.updateSettings(
-                        settingsModel: settingsCopy);
+                      settingsModel: settings,
+                    );
                     await waterService.updateWaterToDrink(
-                        toDrink: settingsCopy.waterToDrink);
+                      toDrink: settings.waterToDrink,
+                    );
                   },
                 ),
               )
             ],
           ),
         ),
-      );
-    }
-
-    return const Center(child: Loader());
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ScaffoldWrapper(
-      title: 'Ustawienia',
-      body: settingsBody(settings),
+      ),
     );
   }
 }

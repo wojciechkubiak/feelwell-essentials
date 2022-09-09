@@ -10,19 +10,22 @@ import '../components/loader.dart';
 import '../models/water.dart';
 
 class Water extends StatefulWidget {
-  const Water({super.key});
+  final WaterModel water;
+
+  const Water({
+    super.key,
+    required this.water,
+  });
 
   @override
   State<Water> createState() => _WaterState();
 }
 
 class _WaterState extends State<Water> {
-  late WaterModel water;
   WaterService waterService = WaterService();
 
   @override
   void initState() {
-    loadSettings();
     super.initState();
   }
 
@@ -31,20 +34,11 @@ class _WaterState extends State<Water> {
     super.dispose();
   }
 
-  void loadSettings() async {
-    int id = Ids.getRecordId();
-    WaterModel? waterData = await waterService.getWater(id: id);
-
-    if (waterData is WaterModel) {
-      setState(() {
-        water = waterData;
-      });
-    }
-  }
-
-  Widget waterBody({required WaterModel? waterModel}) {
-    if (waterModel is WaterModel) {
-      return Center(
+  @override
+  Widget build(BuildContext context) {
+    return ScaffoldWrapper(
+      title: 'Woda',
+      body: Center(
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -66,8 +60,8 @@ class _WaterState extends State<Water> {
                   width: 250,
                   height: 250,
                   child: LiquidCircularProgressIndicator(
-                    value: waterModel.drunk /
-                        waterModel.toDrink, // Defaults to 0.5.
+                    value: widget.water.drunk /
+                        widget.water.toDrink, // Defaults to 0.5.
                     valueColor: const AlwaysStoppedAnimation(
                       Colors.blue,
                     ),
@@ -76,7 +70,7 @@ class _WaterState extends State<Water> {
                     borderWidth: 2,
                     direction: Axis.vertical,
                     center: Text(
-                      '${waterModel.drunk}ML',
+                      '${widget.water.drunk}ML',
                       style: GoogleFonts.bebasNeue(
                         fontSize: 72,
                         color: Colors.black54,
@@ -99,17 +93,7 @@ class _WaterState extends State<Water> {
             ],
           ),
         ),
-      );
-    }
-
-    return const Center(child: Loader());
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ScaffoldWrapper(
-      title: 'Woda',
-      body: waterBody(waterModel: water),
+      ),
     );
   }
 }

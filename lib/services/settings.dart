@@ -5,8 +5,8 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 abstract class DataSettingsService {
-  Future<SettingsModel> initSettings({required Database db});
-  Future<SettingsModel> getSettings();
+  Future<SettingsModel?> initSettings();
+  Future<SettingsModel?> getSettings();
   Future<bool> updateSettings({required SettingsModel settingsModel});
 }
 
@@ -23,7 +23,7 @@ class SettingsService extends DataSettingsService {
   );
 
   @override
-  Future<SettingsModel> getSettings() async {
+  Future<SettingsModel?> getSettings() async {
     try {
       StorageService storageService = StorageService();
       final db = await storageService.getDatabase();
@@ -38,18 +38,25 @@ class SettingsService extends DataSettingsService {
         return settings;
       }
 
-      return initSettings(db: db);
+      return null;
     } catch (e) {
       print(e.toString());
-      return _defaultSettings;
+      return null;
     }
   }
 
   @override
-  Future<SettingsModel> initSettings({required Database db}) async {
+  Future<SettingsModel?> initSettings() async {
     SettingsModel settings = _defaultSettings;
-
     try {
+      SettingsModel? existingSettings = await getSettings();
+
+      if (existingSettings is SettingsModel) {
+        print(4);
+        return existingSettings;
+      }
+
+      print(3);
       StorageService storageService = StorageService();
       final db = await storageService.getDatabase();
 
@@ -64,7 +71,7 @@ class SettingsService extends DataSettingsService {
       return resultSettings;
     } catch (e) {
       print(e.toString());
-      return _defaultSettings;
+      return null;
     }
   }
 
@@ -75,11 +82,12 @@ class SettingsService extends DataSettingsService {
     try {
       final db = await storageService.getDatabase();
 
-      SettingsModel currentSettings = await getSettings();
-      int currentId = currentSettings.id;
+      SettingsModel? currentSettings = await getSettings();
+      if (currentSettings is SettingsModel) {
+        int currentId = currentSettings.id;
 
-      int count = await db.rawUpdate(
-        '''UPDATE settings SET waterCapacity = ?, 
+        int count = await db.rawUpdate(
+          '''UPDATE settings SET waterCapacity = ?, 
         waterToDrink = ?, 
         fastingLength = ?, 
         fastingStartHour = ?, 
@@ -87,19 +95,21 @@ class SettingsService extends DataSettingsService {
         exerciseLength = ?, 
         meditationLength = ? 
         WHERE id = ?''',
-        [
-          settingsModel.waterCapacity,
-          settingsModel.waterToDrink,
-          settingsModel.fastingLength,
-          settingsModel.fastingStartHour,
-          settingsModel.fastingStartMinutes,
-          settingsModel.exerciseLength,
-          settingsModel.meditationLength,
-          currentId
-        ],
-      );
+          [
+            settingsModel.waterCapacity,
+            settingsModel.waterToDrink,
+            settingsModel.fastingLength,
+            settingsModel.fastingStartHour,
+            settingsModel.fastingStartMinutes,
+            settingsModel.exerciseLength,
+            settingsModel.meditationLength,
+            currentId
+          ],
+        );
+        return count > 0;
+      }
 
-      return count > 0;
+      return false;
     } catch (e) {
       print(e.toString());
       return false;
