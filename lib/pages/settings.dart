@@ -23,6 +23,7 @@ class _SettingsState extends State<Settings> {
   late SettingsModel settingsCopy;
   SettingsService settingsService = SettingsService();
   WaterService waterService = WaterService();
+  bool isError = false;
 
   TextEditingController? waterToDrinkController;
   TextEditingController? fastingStart;
@@ -262,6 +263,27 @@ class _SettingsState extends State<Settings> {
     );
   }
 
+  Widget error() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 28.0),
+      child: Text(
+        'Coś poszło nie tak przy próbie zapisu. Spróbuj ponownie.',
+        style: GoogleFonts.poppins(
+          fontSize: 12,
+          color: Colors.white70,
+          fontWeight: FontWeight.w200,
+        ),
+        textAlign: TextAlign.start,
+      ),
+    );
+  }
+
+  void goHomePage() {
+    BlocProvider.of<HomeBloc>(context).add(
+      HomeShowPageBack(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     SettingsModel settings = settingsCopy;
@@ -328,6 +350,8 @@ class _SettingsState extends State<Settings> {
                 child: Button(
                   text: 'Zatwierdź',
                   onPressed: () async {
+                    setState(() => isError = false);
+
                     int? waterToDrink =
                         int.tryParse(waterToDrinkController!.value.text);
                     if (waterToDrink is int) {
@@ -346,15 +370,23 @@ class _SettingsState extends State<Settings> {
                       settings.meditationLength = meditationLength * 60;
                     }
 
-                    await settingsService.updateSettings(
-                      settingsModel: settings,
-                    );
-                    await waterService.updateWaterToDrink(
+                    bool isSettingsUpdated = await settingsService
+                        .updateSettings(settingsModel: settings);
+                    bool isWaterUpdated = await waterService.updateWaterToDrink(
                       toDrink: settings.waterToDrink,
                     );
+
+                    print(isWaterUpdated);
+
+                    if (isSettingsUpdated && isWaterUpdated) {
+                      goHomePage();
+                    } else {
+                      setState(() => isError = true);
+                    }
                   },
                 ),
-              )
+              ),
+              if (isError) error(),
             ],
           ),
         ),

@@ -40,8 +40,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     try {
       SettingsModel? settingsData = await _settingsService.initSettings();
+      WaterModel? waterData = await _waterService.initWaterRecord();
 
-      if (settingsData is SettingsModel) {
+      if (settingsData is SettingsModel && waterData is WaterModel) {
         emit(HomePage());
       } else {
         emit(HomeError());

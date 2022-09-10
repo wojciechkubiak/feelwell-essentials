@@ -16,14 +16,17 @@ abstract class DataWaterService {
 class WaterService extends DataWaterService {
   @override
   Future<WaterModel?> initWaterRecord() async {
+    int id = Ids.getRecordId();
+
     StorageService storageService = StorageService();
     SettingsService settingsService = SettingsService();
-    int id = Ids.getRecordId();
+
     final db = await storageService.getDatabase();
 
     SettingsModel? settings = await settingsService.getSettings();
+    WaterModel? water = await getWater(id: id);
 
-    if (settings is SettingsModel) {
+    if (settings is SettingsModel && water is! WaterModel) {
       WaterModel defaultWater = WaterModel(
         id: id,
         drunk: 0,
@@ -59,7 +62,7 @@ class WaterService extends DataWaterService {
         return water;
       }
 
-      return await initWaterRecord();
+      return null;
     } catch (e) {
       print(e.toString());
       return null;
@@ -118,6 +121,8 @@ class WaterService extends DataWaterService {
         'UPDATE water SET toDrink = ? WHERE id = ?',
         [toDrink, id],
       );
+
+      print([toDrink, id]);
 
       return count > 0;
     } catch (e) {
