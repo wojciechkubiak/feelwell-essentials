@@ -30,7 +30,6 @@ class FastingModel {
     String formattedMinutes =
         startMinutes > 9 ? startMinutes.toString() : '0$startMinutes';
 
-    print(now);
     DateTime start =
         DateTime.parse('$year-$month-$day $formattedHour:$formattedMinutes:00');
     DateTime end = start.add(Duration(hours: duration));

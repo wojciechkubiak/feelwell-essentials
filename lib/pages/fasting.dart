@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../blocs/home/home_bloc.dart';
+import '../components/loader.dart';
 
 class Fasting extends StatefulWidget {
   final FastingModel fastingData;
@@ -19,8 +20,8 @@ class Fasting extends StatefulWidget {
 
 class _FastingState extends State<Fasting> {
   Timer? timer;
-  bool isFastingTime = false;
-  String left = '';
+  bool isFasting = false;
+  String fastingInformation = '';
 
   String formatNumber({required int numb}) {
     return numb > 9 ? '$numb' : '0$numb';
@@ -29,6 +30,7 @@ class _FastingState extends State<Fasting> {
   void compareDates() {
     DateTime now = DateTime.now();
     int diff = widget.fastingData.end.difference(now).inSeconds;
+    bool isAfterStart = now.isAfter(widget.fastingData.start);
     int h, m, s;
 
     h = diff ~/ 3600;
@@ -38,11 +40,12 @@ class _FastingState extends State<Fasting> {
     String result =
         "${formatNumber(numb: h)}:${formatNumber(numb: m)}:${formatNumber(numb: s)}";
 
-    print(diff);
+    bool isFastingTime = isAfterStart && diff >= 0;
+
     setState(
       () {
-        isFastingTime = diff >= 0;
-        left = result;
+        isFasting = isFastingTime;
+        fastingInformation = isFastingTime ? result : 'Możesz jeść';
       },
     );
   }
@@ -70,6 +73,7 @@ class _FastingState extends State<Fasting> {
         color: Colors.white,
         fontWeight: FontWeight.w500,
       ),
+      textAlign: TextAlign.center,
     );
   }
 
@@ -83,20 +87,25 @@ class _FastingState extends State<Fasting> {
         child: Column(
           children: [
             textXL(
-              text: 'Pozostało',
+              text: 'Pozostało:',
               fontSize: 22,
             ),
+            if (fastingInformation.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 28.0),
+                child: textXL(
+                  text: fastingInformation,
+                  fontSize: 76,
+                ),
+              ),
+            if (fastingInformation.isEmpty) const Loader(color: Colors.white),
             textXL(
-              text: isFastingTime ? left : 'Koniec postu',
-              fontSize: 112,
-            ),
-            textXL(
-              text: 'Początek',
+              text: 'Początek:',
               fontSize: 22,
             ),
             textXL(text: widget.fastingData.formattedStart),
             textXL(
-              text: 'Koniec',
+              text: 'Koniec:',
               fontSize: 22,
             ),
             textXL(text: widget.fastingData.formattedEnd),
