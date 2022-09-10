@@ -45,7 +45,7 @@ class _FastingState extends State<Fasting> {
     setState(
       () {
         isFasting = isFastingTime;
-        fastingInformation = isFastingTime ? result : 'Możesz jeść';
+        fastingInformation = isFastingTime ? result : 'MOŻESZ JEŚĆ';
       },
     );
   }
@@ -85,9 +85,10 @@ class _FastingState extends State<Fasting> {
       ),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             textXL(
-              text: 'Pozostało:',
+              text: 'POZOSTAŁO:',
               fontSize: 22,
             ),
             if (fastingInformation.isNotEmpty)
@@ -100,12 +101,12 @@ class _FastingState extends State<Fasting> {
               ),
             if (fastingInformation.isEmpty) const Loader(color: Colors.white),
             textXL(
-              text: 'Początek:',
+              text: 'POCZĄTEK:',
               fontSize: 22,
             ),
             textXL(text: widget.fastingData.formattedStart),
             textXL(
-              text: 'Koniec:',
+              text: 'KONIEC:',
               fontSize: 22,
             ),
             textXL(text: widget.fastingData.formattedEnd),
