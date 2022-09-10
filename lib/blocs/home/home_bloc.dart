@@ -72,9 +72,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       int id = Ids.getRecordId();
 
       WaterModel? waterData = await _waterService.getWater(id: id);
+      SettingsModel? settingsModel = await _settingsService.getSettings();
 
-      if (waterData is WaterModel) {
-        emit(HomeWater(water: waterData));
+      if (waterData is WaterModel && settingsModel is SettingsModel) {
+        emit(HomeWater(water: waterData, glassSize: settingsModel.glassSize));
       } else {
         emit(HomeError());
       }

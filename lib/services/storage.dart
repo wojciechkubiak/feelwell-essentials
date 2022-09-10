@@ -13,7 +13,7 @@ class StorageService extends DataStorageService {
       join(await getDatabasesPath(), 'star_metter.db'),
       onCreate: (db, version) async {
         await db.execute(
-            'CREATE TABLE settings (id INTEGER PRIMARY KEY, waterCapacity INTEGER, waterToDrink INTEGER, fastingLength INTEGER, fastingStartHour INTEGER, fastingStartMinutes	INTEGER, exerciseLength INTEGER, meditationLength INTEGER)');
+            'CREATE TABLE settings (id INTEGER PRIMARY KEY, waterCapacity INTEGER, waterToDrink INTEGER, glassSize INTEGER, fastingLength INTEGER, fastingStartHour INTEGER, fastingStartMinutes	INTEGER, exerciseLength INTEGER, meditationLength INTEGER)');
         await db.execute(
             'CREATE TABLE water (id INTEGER, drunk INTEGER, toDrink INTEGER)');
         await db.execute(

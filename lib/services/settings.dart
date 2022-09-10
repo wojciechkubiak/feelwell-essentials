@@ -15,6 +15,7 @@ class SettingsService extends DataSettingsService {
     id: 1,
     waterCapacity: 250,
     waterToDrink: 2000,
+    glassSize: 250,
     fastingLength: 14,
     fastingStartHour: 8,
     fastingStartMinutes: 30,
@@ -86,7 +87,8 @@ class SettingsService extends DataSettingsService {
 
         int count = await db.rawUpdate(
           '''UPDATE settings SET waterCapacity = ?, 
-        waterToDrink = ?, 
+        waterToDrink = ?,
+        glassSize = ?, 
         fastingLength = ?, 
         fastingStartHour = ?, 
         fastingStartMinutes = ?, 
@@ -96,6 +98,7 @@ class SettingsService extends DataSettingsService {
           [
             settingsModel.waterCapacity,
             settingsModel.waterToDrink,
+            settingsModel.glassSize,
             settingsModel.fastingLength,
             settingsModel.fastingStartHour,
             settingsModel.fastingStartMinutes,

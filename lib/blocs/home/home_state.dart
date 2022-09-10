@@ -39,11 +39,12 @@ class HomeFasting extends HomeState {
 
 class HomeWater extends HomeState {
   final WaterModel water;
+  final int glassSize;
 
-  HomeWater({required this.water});
+  HomeWater({required this.water, required this.glassSize});
 
   @override
-  List<Object> get props => [water];
+  List<Object> get props => [water, glassSize];
 }
 
 class HomeMeditation extends HomeState {

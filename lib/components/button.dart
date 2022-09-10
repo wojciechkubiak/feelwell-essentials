@@ -6,6 +6,8 @@ class Button extends StatelessWidget {
   final void Function() onPressed;
   final Color backgroundColor;
   final Color textColor;
+  final EdgeInsets? padding;
+  final double fontSize;
 
   const Button({
     Key? key,
@@ -13,6 +15,11 @@ class Button extends StatelessWidget {
     required this.onPressed,
     this.backgroundColor = Colors.green,
     this.textColor = Colors.white,
+    this.padding = const EdgeInsets.symmetric(
+      vertical: 12,
+      horizontal: 32,
+    ),
+    this.fontSize = 18,
   }) : super(key: key);
 
   @override
@@ -27,10 +34,7 @@ class Button extends StatelessWidget {
           ),
         ),
         backgroundColor: backgroundColor,
-        padding: const EdgeInsets.symmetric(
-          vertical: 12,
-          horizontal: 32,
-        ),
+        padding: padding,
         elevation: 15,
       ),
       onPressed: onPressed,
@@ -38,7 +42,7 @@ class Button extends StatelessWidget {
         text,
         textAlign: TextAlign.center,
         style: GoogleFonts.poppins(
-          fontSize: 18,
+          fontSize: fontSize,
           color: textColor,
           fontWeight: FontWeight.w400,
         ),

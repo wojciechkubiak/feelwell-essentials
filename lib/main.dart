@@ -116,6 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
         if (state is HomeWater) {
           return Water(
             water: state.water,
+            glassSize: state.glassSize,
           );
         }
         if (state is HomeMeditation) {

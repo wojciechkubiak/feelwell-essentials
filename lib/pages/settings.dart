@@ -6,7 +6,10 @@ import 'package:feelwell_essentials/components/scaffold_wrapper.dart';
 import 'package:feelwell_essentials/models/settings.dart';
 import 'package:feelwell_essentials/services/settings.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../blocs/home/home_bloc.dart';
 
 class Settings extends StatefulWidget {
   final SettingsModel settings;
@@ -113,7 +116,7 @@ class _SettingsState extends State<Settings> {
                       vertical: 12,
                       horizontal: 16,
                     ),
-                    elevation: 15,
+                    elevation: 8,
                   ),
                   onPressed: () => onPressed(option),
                   child: Text(
@@ -164,6 +167,10 @@ class _SettingsState extends State<Settings> {
             decoration: InputDecoration(
               labelText: label,
               labelStyle: const TextStyle(color: Colors.white),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+                borderSide: const BorderSide(color: Colors.white, width: 1),
+              ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
                 borderSide: const BorderSide(color: Colors.white, width: 1),
@@ -242,6 +249,9 @@ class _SettingsState extends State<Settings> {
     SettingsModel settings = settingsCopy;
 
     return ScaffoldWrapper(
+      onBack: () => BlocProvider.of<HomeBloc>(context).add(
+        HomeShowPage(),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 22.0),
@@ -249,12 +259,24 @@ class _SettingsState extends State<Settings> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.max,
             children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 18.0),
+                child: Text(
+                  'USTAWIENIA',
+                  style: GoogleFonts.poppins(
+                    fontSize: 32,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  textAlign: TextAlign.start,
+                ),
+              ),
               tilePicker(
                 header: 'Rozmiar szklanki (ml)',
                 tileOptions: ['250', '300', '330'],
-                currentOption: settings.waterCapacity.toString(),
+                currentOption: settings.glassSize.toString(),
                 onPressed: (option) {
-                  settings.waterCapacity = int.tryParse(option) ?? 250;
+                  settings.glassSize = int.tryParse(option) ?? 250;
 
                   setState(() {
                     settingsCopy = settings;

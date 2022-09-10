@@ -2,6 +2,7 @@ class SettingsModel {
   int id;
   int waterCapacity;
   int waterToDrink;
+  int glassSize;
   int fastingLength;
   int fastingStartHour;
   int fastingStartMinutes;
@@ -12,6 +13,7 @@ class SettingsModel {
     required this.id,
     required this.waterCapacity,
     required this.waterToDrink,
+    required this.glassSize,
     required this.fastingLength,
     required this.fastingStartHour,
     required this.fastingStartMinutes,
@@ -24,6 +26,7 @@ class SettingsModel {
       id: json['id'],
       waterCapacity: json['waterCapacity'],
       waterToDrink: json['waterToDrink'],
+      glassSize: json['glassSize'],
       fastingLength: json['fastingLength'],
       fastingStartHour: json['fastingStartHour'],
       fastingStartMinutes: json['fastingStartMinutes'],
@@ -38,6 +41,7 @@ class SettingsModel {
     data['id'] = id;
     data['waterCapacity'] = waterCapacity;
     data['waterToDrink'] = waterToDrink;
+    data['glassSize'] = glassSize;
     data['fastingLength'] = fastingLength;
     data['fastingStartHour'] = fastingStartHour;
     data['fastingStartMinutes'] = fastingStartMinutes;
@@ -50,6 +54,7 @@ class SettingsModel {
         id,
         waterCapacity,
         waterToDrink,
+        glassSize,
         fastingLength,
         fastingStartHour,
         fastingStartMinutes,

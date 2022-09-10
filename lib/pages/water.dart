@@ -3,18 +3,23 @@ import 'package:feelwell_essentials/components/scaffold_wrapper.dart';
 import 'package:feelwell_essentials/models/ids.dart';
 import 'package:feelwell_essentials/services/water.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 
+import '../blocs/home/home_bloc.dart';
 import '../components/loader.dart';
+import '../components/transparent_button.dart';
 import '../models/water.dart';
 
 class Water extends StatefulWidget {
   final WaterModel water;
+  final int glassSize;
 
   const Water({
     super.key,
     required this.water,
+    required this.glassSize,
   });
 
   @override
@@ -24,6 +29,9 @@ class Water extends StatefulWidget {
 class _WaterState extends State<Water> {
   Widget body() {
     return ScaffoldWrapper(
+      onBack: () => BlocProvider.of<HomeBloc>(context).add(
+        HomeShowPage(),
+      ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -34,14 +42,31 @@ class _WaterState extends State<Water> {
                 horizontal: 42,
                 vertical: 24,
               ),
-              child: Text(
-                'Woda stanowi średnio 70% masy dorosłego człowieka, w przypadku noworodka ok. 15% więcej.',
-                style: GoogleFonts.poppins(
-                  fontSize: 16,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w400,
-                ),
-                textAlign: TextAlign.start,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Text(
+                      'DZIENNIK PŁYNÓW',
+                      style: GoogleFonts.poppins(
+                        fontSize: 32,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      textAlign: TextAlign.start,
+                    ),
+                  ),
+                  Text(
+                    'Woda stanowi średnio 70% masy dorosłego człowieka, w przypadku noworodka ok. 15% więcej.',
+                    style: GoogleFonts.poppins(
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    textAlign: TextAlign.start,
+                  ),
+                ],
               ),
             ),
             Padding(
@@ -72,13 +97,50 @@ class _WaterState extends State<Water> {
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 12),
-              child: Button(text: 'Dodaj szklankę', onPressed: () {}),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: TransparentButton(
+                      onPressed: () {},
+                      body: Text(
+                        '-',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(
+                          fontSize: 42,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: TransparentButton(
+                      onPressed: () {},
+                      body: Text(
+                        '+',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(
+                          fontSize: 42,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            Button(
-              text: 'Usuń szklankę',
-              onPressed: () {},
-              backgroundColor: Colors.white,
-              textColor: Colors.black54,
+            Text(
+              'Aktualna pojemność szklanki ${widget.glassSize}ml',
+              style: GoogleFonts.poppins(
+                fontSize: 16,
+                color: Colors.white70,
+                fontWeight: FontWeight.w200,
+              ),
+              textAlign: TextAlign.start,
             ),
           ],
         ),
