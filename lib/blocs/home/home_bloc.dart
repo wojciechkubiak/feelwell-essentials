@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:feelwell_essentials/models/fasting.dart';
 import 'package:feelwell_essentials/models/ids.dart';
 import 'package:feelwell_essentials/services/settings.dart';
 import 'package:feelwell_essentials/services/water.dart';
@@ -70,7 +71,24 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   void _mapHomeFasting(HomeEvent event, Emitter<HomeState> emit) async {
-    emit(HomeFasting());
+    try {
+      SettingsModel? settingsData = await _settingsService.initSettings();
+
+      if (settingsData is SettingsModel) {
+        FastingModel fastingData = FastingModel.fromIntegers(
+          startHour: settingsData.fastingStartHour,
+          startMinutes: settingsData.fastingStartMinutes,
+          duration: settingsData.fastingLength,
+        );
+
+        emit(HomeFasting(fastingData: fastingData));
+      } else {
+        emit(HomeError());
+      }
+    } catch (e) {
+      print(e.toString());
+      emit(HomeError());
+    }
   }
 
   void _mapHomeWater(HomeEvent event, Emitter<HomeState> emit) async {

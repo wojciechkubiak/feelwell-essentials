@@ -51,7 +51,7 @@ class Menu extends StatelessWidget {
                       icon: Icons.food_bank_outlined,
                       text: 'Post',
                       onPressed: () => BlocProvider.of<HomeBloc>(context).add(
-                        HomeShowWater(),
+                        HomeShowFasting(),
                       ),
                     ),
                   ],

@@ -33,8 +33,12 @@ class HomeExercise extends HomeState {
 }
 
 class HomeFasting extends HomeState {
+  final FastingModel fastingData;
+
+  HomeFasting({required this.fastingData});
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [fastingData];
 }
 
 class HomeWater extends HomeState {

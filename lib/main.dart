@@ -108,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
           return const Exercise();
         }
         if (state is HomeFasting) {
-          return const Fasting();
+          return Fasting(fastingData: state.fastingData);
         }
         if (state is HomeWater) {
           return Water(
