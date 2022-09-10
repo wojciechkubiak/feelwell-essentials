@@ -265,7 +265,7 @@ class _SettingsState extends State<Settings> {
 
   Widget error() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 28.0),
+      padding: const EdgeInsets.only(left: 28.0, right: 28.0, bottom: 20.0),
       child: Text(
         'Coś poszło nie tak przy próbie zapisu. Spróbuj ponownie.',
         style: GoogleFonts.poppins(

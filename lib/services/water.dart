@@ -33,17 +33,18 @@ class WaterService extends DataWaterService {
         toDrink: settings.waterToDrink,
       );
 
-      WaterModel water = await db.insert('water', defaultWater.toJson()).then(
+      WaterModel insertedWater =
+          await db.insert('water', defaultWater.toJson()).then(
         (value) {
           print('INSERTED ${defaultWater.toJson()}');
           return defaultWater;
         },
       );
 
-      return water;
+      return insertedWater;
     }
 
-    return null;
+    return water;
   }
 
   @override
