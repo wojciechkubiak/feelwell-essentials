@@ -13,7 +13,6 @@ abstract class DataSettingsService {
 class SettingsService extends DataSettingsService {
   final SettingsModel _defaultSettings = SettingsModel(
     id: 1,
-    waterCapacity: 250,
     waterToDrink: 2000,
     glassSize: 250,
     fastingLength: 14,
@@ -86,8 +85,7 @@ class SettingsService extends DataSettingsService {
         int currentId = currentSettings.id;
 
         int count = await db.rawUpdate(
-          '''UPDATE settings SET waterCapacity = ?, 
-        waterToDrink = ?,
+          '''UPDATE settings SET waterToDrink = ?,
         glassSize = ?, 
         fastingLength = ?, 
         fastingStartHour = ?, 
@@ -96,7 +94,6 @@ class SettingsService extends DataSettingsService {
         meditationLength = ? 
         WHERE id = ?''',
           [
-            settingsModel.waterCapacity,
             settingsModel.waterToDrink,
             settingsModel.glassSize,
             settingsModel.fastingLength,

@@ -1,6 +1,5 @@
 class SettingsModel {
   int id;
-  int waterCapacity;
   int waterToDrink;
   int glassSize;
   int fastingLength;
@@ -11,7 +10,6 @@ class SettingsModel {
 
   SettingsModel({
     required this.id,
-    required this.waterCapacity,
     required this.waterToDrink,
     required this.glassSize,
     required this.fastingLength,
@@ -24,7 +22,6 @@ class SettingsModel {
   factory SettingsModel.fromJson(Map<String, dynamic> json) {
     SettingsModel settings = SettingsModel(
       id: json['id'],
-      waterCapacity: json['waterCapacity'],
       waterToDrink: json['waterToDrink'],
       glassSize: json['glassSize'],
       fastingLength: json['fastingLength'],
@@ -39,7 +36,6 @@ class SettingsModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     data['id'] = id;
-    data['waterCapacity'] = waterCapacity;
     data['waterToDrink'] = waterToDrink;
     data['glassSize'] = glassSize;
     data['fastingLength'] = fastingLength;
@@ -52,7 +48,6 @@ class SettingsModel {
 
   List<dynamic> get props => [
         id,
-        waterCapacity,
         waterToDrink,
         glassSize,
         fastingLength,

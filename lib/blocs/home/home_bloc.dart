@@ -24,6 +24,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         _settingsService = settingsService,
         super(HomeInitial()) {
     on<HomeShowPage>(_mapHomePage);
+    on<HomeShowPageBack>(_mapHomePageBack);
     on<HomeShowSplash>(_mapHomeSplash);
     on<HomeShowLoading>(_mapHomeLoading);
     on<HomeShowExercise>(_mapHomeExercise);
@@ -34,7 +35,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   void _mapHomePage(HomeEvent event, Emitter<HomeState> emit) async {
-    emit(HomeLoading());
+    emit(HomeSplash());
+    await Future.delayed(const Duration(seconds: 2));
 
     try {
       SettingsModel? settingsData = await _settingsService.initSettings();
@@ -48,6 +50,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       print(e.toString());
       emit(HomeError());
     }
+  }
+
+  void _mapHomePageBack(HomeEvent event, Emitter<HomeState> emit) async {
+    emit(HomePage());
   }
 
   void _mapHomeLoading(HomeEvent event, Emitter<HomeState> emit) async {

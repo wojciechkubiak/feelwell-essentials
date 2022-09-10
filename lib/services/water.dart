@@ -9,6 +9,7 @@ abstract class DataWaterService {
   Future<WaterModel?> initWaterRecord();
   Future<WaterModel?> getWater({required int id});
   Future<bool> updateWater({required WaterModel waterModel});
+  Future<bool> updateDrunkWater({required int drunk});
   Future<bool> updateWaterToDrink({required int toDrink});
 }
 
@@ -74,8 +75,28 @@ class WaterService extends DataWaterService {
       int id = Ids.getRecordId();
 
       int count = await db.rawUpdate(
-        'UPDATE water SET waterDrunk = ?, waterToDrink = ? WHERE id = ?',
+        'UPDATE water SET drunk = ?, toDrink = ? WHERE id = ?',
         [waterModel.drunk, waterModel.toDrink, id],
+      );
+
+      return count > 0;
+    } catch (e) {
+      print(e.toString());
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> updateDrunkWater({required int drunk}) async {
+    StorageService storageService = StorageService();
+
+    try {
+      final db = await storageService.getDatabase();
+      int id = Ids.getRecordId();
+
+      int count = await db.rawUpdate(
+        'UPDATE water SET drunk = ? WHERE id = ?',
+        [drunk, id],
       );
 
       return count > 0;
@@ -94,7 +115,7 @@ class WaterService extends DataWaterService {
       int id = Ids.getRecordId();
 
       int count = await db.rawUpdate(
-        'UPDATE water SET waterToDrink = ? WHERE id = ?',
+        'UPDATE water SET toDrink = ? WHERE id = ?',
         [toDrink, id],
       );
 

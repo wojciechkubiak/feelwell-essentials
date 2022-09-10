@@ -1,7 +1,6 @@
 import 'package:feelwell_essentials/components/button.dart';
 import 'package:feelwell_essentials/services/water.dart';
 import 'package:flutter/material.dart';
-import 'package:feelwell_essentials/components/loader.dart';
 import 'package:feelwell_essentials/components/scaffold_wrapper.dart';
 import 'package:feelwell_essentials/models/settings.dart';
 import 'package:feelwell_essentials/services/settings.dart';
@@ -180,6 +179,10 @@ class _SettingsState extends State<Settings> {
                 borderSide: const BorderSide(color: Colors.white, width: 2),
               ),
               hintText: 'Wpisz oczekiwaną wartość',
+              hintStyle: const TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+              ),
             ),
             keyboardType: TextInputType.number,
             inputFormatters: <TextInputFormatter>[
@@ -244,13 +247,28 @@ class _SettingsState extends State<Settings> {
     );
   }
 
+  Widget header() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 18.0),
+      child: Text(
+        'USTAWIENIA',
+        style: GoogleFonts.poppins(
+          fontSize: 32,
+          color: Colors.white,
+          fontWeight: FontWeight.w500,
+        ),
+        textAlign: TextAlign.start,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     SettingsModel settings = settingsCopy;
 
     return ScaffoldWrapper(
       onBack: () => BlocProvider.of<HomeBloc>(context).add(
-        HomeShowPage(),
+        HomeShowPageBack(),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -259,18 +277,7 @@ class _SettingsState extends State<Settings> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.max,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 18.0),
-                child: Text(
-                  'USTAWIENIA',
-                  style: GoogleFonts.poppins(
-                    fontSize: 32,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  textAlign: TextAlign.start,
-                ),
-              ),
+              header(),
               tilePicker(
                 header: 'Rozmiar szklanki (ml)',
                 tileOptions: ['250', '300', '330'],
@@ -285,7 +292,7 @@ class _SettingsState extends State<Settings> {
               ),
               inputField(
                 header: 'Dzienna dawka wody (ml)',
-                label: 'Wprowadź ilość',
+                label: 'Ilość',
                 controller: waterToDrinkController!,
               ),
               tilePicker(
@@ -308,12 +315,12 @@ class _SettingsState extends State<Settings> {
               ),
               inputField(
                 header: 'Długość ćwiczenia (min)',
-                label: 'Wprowadź długość',
+                label: 'Długość',
                 controller: exerciseLengthController!,
               ),
               inputField(
                 header: 'Długość medytacji (min)',
-                label: 'Wprowadź długość',
+                label: 'Długość',
                 controller: meditationLengthController!,
               ),
               Padding(

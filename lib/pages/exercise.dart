@@ -11,7 +11,7 @@ class Exercise extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScaffoldWrapper(
       onBack: () => BlocProvider.of<HomeBloc>(context).add(
-        HomeShowPage(),
+        HomeShowPageBack(),
       ),
       body: Center(
         child: ElevatedButton(

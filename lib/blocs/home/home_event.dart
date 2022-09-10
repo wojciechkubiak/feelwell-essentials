@@ -9,6 +9,11 @@ class HomeShowPage extends HomeEvent {
   List<Object> get props => [];
 }
 
+class HomeShowPageBack extends HomeEvent {
+  @override
+  List<Object> get props => [];
+}
+
 class HomeShowLoading extends HomeEvent {
   @override
   List<Object> get props => [];

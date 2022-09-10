@@ -27,10 +27,142 @@ class Water extends StatefulWidget {
 }
 
 class _WaterState extends State<Water> {
+  final WaterService _waterService = WaterService();
+  late WaterModel waterCopy;
+  bool isError = false;
+
+  @override
+  void initState() {
+    setState(() => waterCopy = widget.water);
+    super.initState();
+  }
+
+  Widget header() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Text(
+        'DZIENNIK PŁYNÓW',
+        style: GoogleFonts.poppins(
+          fontSize: 32,
+          color: Colors.white,
+          fontWeight: FontWeight.w500,
+        ),
+        textAlign: TextAlign.start,
+      ),
+    );
+  }
+
+  Widget description() {
+    return Text(
+      'Woda stanowi średnio 70% masy dorosłego człowieka, w przypadku noworodka ok. 15% więcej.',
+      style: GoogleFonts.poppins(
+        fontSize: 16,
+        color: Colors.white,
+        fontWeight: FontWeight.w400,
+      ),
+      textAlign: TextAlign.start,
+    );
+  }
+
+  Widget metter() {
+    String percentage =
+        (waterCopy.drunk / waterCopy.toDrink * 100).toStringAsFixed(0);
+    String drunkLiters = (waterCopy.drunk / 1000).toStringAsFixed(2);
+    String toDrinkLiters = (waterCopy.toDrink / 1000).toStringAsFixed(2);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 24),
+      child: SizedBox(
+        width: 250,
+        height: 250,
+        child: LiquidCircularProgressIndicator(
+          value: waterCopy.drunk / waterCopy.toDrink, // Defaults to 0.5.
+          valueColor: const AlwaysStoppedAnimation(
+            Colors.white54,
+          ),
+          backgroundColor: Colors.green,
+          borderColor: Colors.white,
+          borderWidth: 2,
+          direction: Axis.vertical,
+          center: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                '$percentage%',
+                style: GoogleFonts.bebasNeue(
+                  fontSize: 66,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              Text(
+                '${drunkLiters}L/${toDrinkLiters}L',
+                style: GoogleFonts.bebasNeue(
+                  fontSize: 18,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget button({
+    required String sign,
+    required Function() onClick,
+    EdgeInsets padding = const EdgeInsets.only(right: 8.0),
+  }) {
+    return Padding(
+      padding: padding,
+      child: TransparentButton(
+        onPressed: onClick,
+        body: Text(
+          sign,
+          textAlign: TextAlign.center,
+          style: GoogleFonts.poppins(
+            fontSize: 42,
+            color: Colors.white,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget subtext() {
+    return Text(
+      '(Aktualna pojemność szklanki ${widget.glassSize}ml)',
+      style: GoogleFonts.poppins(
+        fontSize: 12,
+        color: Colors.white70,
+        fontWeight: FontWeight.w400,
+      ),
+      textAlign: TextAlign.start,
+    );
+  }
+
+  Widget error() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 28.0),
+      child: Text(
+        'Coś poszło nie tak przy próbie dodania wody. Spróbuj ponownie.',
+        style: GoogleFonts.poppins(
+          fontSize: 12,
+          color: Colors.white70,
+          fontWeight: FontWeight.w200,
+        ),
+        textAlign: TextAlign.start,
+      ),
+    );
+  }
+
   Widget body() {
     return ScaffoldWrapper(
       onBack: () => BlocProvider.of<HomeBloc>(context).add(
-        HomeShowPage(),
+        HomeShowPageBack(),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -45,103 +177,61 @@ class _WaterState extends State<Water> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Text(
-                      'DZIENNIK PŁYNÓW',
-                      style: GoogleFonts.poppins(
-                        fontSize: 32,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      textAlign: TextAlign.start,
-                    ),
-                  ),
-                  Text(
-                    'Woda stanowi średnio 70% masy dorosłego człowieka, w przypadku noworodka ok. 15% więcej.',
-                    style: GoogleFonts.poppins(
-                      fontSize: 16,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    textAlign: TextAlign.start,
-                  ),
+                  header(),
+                  description(),
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 24),
-              child: SizedBox(
-                width: 250,
-                height: 250,
-                child: LiquidCircularProgressIndicator(
-                  value: widget.water.drunk /
-                      widget.water.toDrink, // Defaults to 0.5.
-                  valueColor: const AlwaysStoppedAnimation(
-                    Colors.blue,
-                  ),
-                  backgroundColor: Colors.green,
-                  borderColor: Colors.white,
-                  borderWidth: 5,
-                  direction: Axis.vertical,
-                  center: Text(
-                    '${widget.water.drunk}ML',
-                    style: GoogleFonts.bebasNeue(
-                      fontSize: 72,
-                      color: Colors.white70,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            metter(),
             Padding(
               padding: const EdgeInsets.only(bottom: 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: TransparentButton(
-                      onPressed: () {},
-                      body: Text(
-                        '-',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.poppins(
-                          fontSize: 42,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
+                  button(
+                    sign: '-',
+                    onClick: () async {
+                      setState(() => isError = false);
+
+                      int newWaterDrunk = waterCopy.drunk - widget.glassSize;
+                      bool isWaterUpdated =
+                          await _waterService.updateDrunkWater(
+                              drunk: newWaterDrunk > 0 ? newWaterDrunk : 0);
+
+                      if (isWaterUpdated) {
+                        setState(() {
+                          waterCopy.drunk =
+                              newWaterDrunk > 0 ? newWaterDrunk : 0;
+                        });
+                      } else {
+                        setState(() => isError = true);
+                      }
+                    },
                   ),
-                  Padding(
+                  button(
+                    sign: '+',
+                    onClick: () async {
+                      setState(() => isError = false);
+
+                      int newWaterDrunk = waterCopy.drunk + widget.glassSize;
+                      bool isWaterUpdated = await _waterService
+                          .updateDrunkWater(drunk: newWaterDrunk);
+
+                      if (isWaterUpdated) {
+                        setState(() {
+                          waterCopy.drunk = newWaterDrunk;
+                        });
+                      } else {
+                        setState(() => isError = true);
+                      }
+                    },
                     padding: const EdgeInsets.only(left: 8.0),
-                    child: TransparentButton(
-                      onPressed: () {},
-                      body: Text(
-                        '+',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.poppins(
-                          fontSize: 42,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
                   ),
                 ],
               ),
             ),
-            Text(
-              'Aktualna pojemność szklanki ${widget.glassSize}ml',
-              style: GoogleFonts.poppins(
-                fontSize: 16,
-                color: Colors.white70,
-                fontWeight: FontWeight.w200,
-              ),
-              textAlign: TextAlign.start,
-            ),
+            subtext(),
+            if (isError) error(),
           ],
         ),
       ),

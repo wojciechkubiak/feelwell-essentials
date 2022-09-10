@@ -10,10 +10,10 @@ class StorageService extends DataStorageService {
   @override
   Future<Database> getDatabase() async {
     final database = openDatabase(
-      join(await getDatabasesPath(), 'star_metter.db'),
+      join(await getDatabasesPath(), 'feelwell_essentials.db'),
       onCreate: (db, version) async {
         await db.execute(
-            'CREATE TABLE settings (id INTEGER PRIMARY KEY, waterCapacity INTEGER, waterToDrink INTEGER, glassSize INTEGER, fastingLength INTEGER, fastingStartHour INTEGER, fastingStartMinutes	INTEGER, exerciseLength INTEGER, meditationLength INTEGER)');
+            'CREATE TABLE settings (id INTEGER PRIMARY KEY, waterToDrink INTEGER, glassSize INTEGER, fastingLength INTEGER, fastingStartHour INTEGER, fastingStartMinutes	INTEGER, exerciseLength INTEGER, meditationLength INTEGER)');
         await db.execute(
             'CREATE TABLE water (id INTEGER, drunk INTEGER, toDrink INTEGER)');
         await db.execute(

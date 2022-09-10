@@ -42,10 +42,7 @@ class MyApp extends StatelessWidget {
           cursorColor: Colors.white,
         ),
       ),
-      home: const Scaffold(
-        extendBody: true,
-        body: Center(child: MyHomePage()),
-      ),
+      home: const Center(child: MyHomePage()),
     );
   }
 }
