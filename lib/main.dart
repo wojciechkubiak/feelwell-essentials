@@ -1,4 +1,5 @@
 import 'package:feelwell_essentials/blocs/home/home_bloc.dart';
+import 'package:feelwell_essentials/config/color.dart';
 import 'package:feelwell_essentials/pages/Intro.dart';
 import 'package:feelwell_essentials/pages/Menu.dart';
 import 'package:feelwell_essentials/pages/error_page.dart';
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
+        primarySwatch: customGreen,
         textSelectionTheme: const TextSelectionThemeData(
           cursorColor: Colors.white,
         ),

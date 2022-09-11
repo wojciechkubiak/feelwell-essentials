@@ -111,9 +111,6 @@ class _FastingState extends State<Fasting> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldWrapper(
-      onBack: () => BlocProvider.of<HomeBloc>(context).add(
-        HomeShowPageBack(),
-      ),
       body: SingleChildScrollView(
         child: Center(
           child: Column(

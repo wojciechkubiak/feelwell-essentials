@@ -10,6 +10,8 @@ class Intro extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScaffoldWrapper(
+      showBack: false,
+      showSettings: false,
       body: Container(
         width: double.infinity,
         height: double.infinity,

@@ -10,9 +10,6 @@ class Exercise extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScaffoldWrapper(
-      onBack: () => BlocProvider.of<HomeBloc>(context).add(
-        HomeShowPageBack(),
-      ),
       body: Center(
         child: ElevatedButton(
           child: const Text('Open route'),

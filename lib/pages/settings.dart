@@ -51,6 +51,12 @@ class _SettingsState extends State<Settings> {
       context: context,
       initialTime: initTime,
       initialEntryMode: TimePickerEntryMode.input,
+      builder: (context, childWidget) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
+          child: childWidget!,
+        );
+      },
     );
 
     return newTime;
@@ -58,11 +64,19 @@ class _SettingsState extends State<Settings> {
 
   void loadSettings() async {
     SettingsModel settings = widget.settings;
+
+    String fastingStartHour = settings.fastingStartHour > 9
+        ? '0${settings.fastingStartHour}'
+        : settings.fastingStartHour.toString();
+    String fastingStartMinutes = settings.fastingStartMinutes > 9
+        ? '0${settings.fastingStartMinutes}'
+        : settings.fastingStartMinutes.toString();
+
+    fastingStart = TextEditingController(
+      text: '$fastingStartHour:$fastingStartMinutes',
+    );
     waterToDrinkController =
         TextEditingController(text: settings.waterToDrink.toString());
-    fastingStart = TextEditingController(
-      text: '${settings.fastingStartHour}:${settings.fastingStartMinutes}',
-    );
     exerciseLengthController = TextEditingController(
       text: (settings.exerciseLength / 60).toStringAsFixed(0),
     );
@@ -289,9 +303,7 @@ class _SettingsState extends State<Settings> {
     SettingsModel settings = settingsCopy;
 
     return ScaffoldWrapper(
-      onBack: () => BlocProvider.of<HomeBloc>(context).add(
-        HomeShowPageBack(),
-      ),
+      showSettings: false,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 22.0),

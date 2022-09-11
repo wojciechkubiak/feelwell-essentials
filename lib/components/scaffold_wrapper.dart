@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cupertino_will_pop_scope/cupertino_will_pop_scope.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../blocs/home/home_bloc.dart';
 
 class ScaffoldWrapper extends StatelessWidget {
   final Widget body;
-  final Function? onBack;
+  final bool showBack;
+  final bool showSettings;
   final SystemUiOverlayStyle? overlayStyle;
   final Color? backgroundColor;
 
   const ScaffoldWrapper({
     Key? key,
     required this.body,
-    this.onBack,
     this.overlayStyle = const SystemUiOverlayStyle(
       statusBarColor: Colors.green,
       statusBarIconBrightness: Brightness.light,
       statusBarBrightness: Brightness.dark,
     ),
     this.backgroundColor = Colors.green,
+    this.showBack = true,
+    this.showSettings = true,
   }) : super(key: key);
 
   @override
@@ -30,9 +35,11 @@ class ScaffoldWrapper extends StatelessWidget {
         backgroundColor: backgroundColor,
         iconTheme: const IconThemeData(color: Colors.green),
         elevation: 0,
-        leading: onBack is Function
+        leading: showBack
             ? GestureDetector(
-                onTap: () => onBack!(),
+                onTap: () => BlocProvider.of<HomeBloc>(context).add(
+                  HomeShowPageBack(),
+                ),
                 child: const Icon(
                   Icons.arrow_back,
                   size: 32,
@@ -40,10 +47,32 @@ class ScaffoldWrapper extends StatelessWidget {
                 ),
               )
             : null,
+        actions: [
+          if (showSettings)
+            Padding(
+              padding: const EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () => BlocProvider.of<HomeBloc>(context).add(
+                  HomeShowSettings(),
+                ),
+                child: const Icon(
+                  Icons.settings,
+                  size: 32,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+        ],
       ),
       body: ConditionalWillPopScope(
         shouldAddCallback: true,
-        onWillPop: () => onBack is Function ? onBack!() : null,
+        onWillPop: () async {
+          BlocProvider.of<HomeBloc>(context).add(
+            HomeShowPageBack(),
+          );
+
+          return Future.value(false);
+        },
         child: body,
       ),
     );

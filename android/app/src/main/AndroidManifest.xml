@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.feelwell_essentials">
    <application
-        android:label="feelwell_essentials"
+        android:label="Feelwell Essentials"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

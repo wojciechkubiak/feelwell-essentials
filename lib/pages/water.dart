@@ -161,9 +161,6 @@ class _WaterState extends State<Water> {
 
   Widget body() {
     return ScaffoldWrapper(
-      onBack: () => BlocProvider.of<HomeBloc>(context).add(
-        HomeShowPageBack(),
-      ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

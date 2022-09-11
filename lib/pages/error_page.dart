@@ -8,6 +8,8 @@ class ErrorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScaffoldWrapper(
+      showBack: false,
+      showSettings: false,
       body: Container(
         color: Colors.green,
         child: Center(

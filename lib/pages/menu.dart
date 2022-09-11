@@ -18,6 +18,8 @@ class Menu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScaffoldWrapper(
+      showBack: false,
+      showSettings: false,
       overlayStyle: const SystemUiOverlayStyle(
         statusBarColor: Colors.white,
         statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
