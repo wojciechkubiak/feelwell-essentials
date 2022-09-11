@@ -1,4 +1,5 @@
 class FastingModel {
+  double durationInSeconds;
   DateTime start;
   DateTime end;
   String formattedStart;
@@ -8,6 +9,7 @@ class FastingModel {
   String fastingMode;
 
   FastingModel({
+    required this.durationInSeconds,
     required this.start,
     required this.end,
     required this.formattedStart,
@@ -40,6 +42,7 @@ class FastingModel {
         end.minute > 9 ? end.minute.toString() : '0${end.minute}';
 
     FastingModel settings = FastingModel(
+      durationInSeconds: duration.toDouble() * 3600,
       start: start,
       end: end,
       formattedStart: '$formattedHour:$formattedMinutes',
@@ -52,6 +55,7 @@ class FastingModel {
   }
 
   List<dynamic> get props => [
+        durationInSeconds,
         start,
         end,
         startMilliseconds,

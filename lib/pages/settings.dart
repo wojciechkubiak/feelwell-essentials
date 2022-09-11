@@ -376,8 +376,6 @@ class _SettingsState extends State<Settings> {
                       toDrink: settings.waterToDrink,
                     );
 
-                    print(isWaterUpdated);
-
                     if (isSettingsUpdated && isWaterUpdated) {
                       goHomePage();
                     } else {

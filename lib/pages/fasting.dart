@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../blocs/home/home_bloc.dart';
+import '../components/gauge.dart';
 import '../components/loader.dart';
 
 class Fasting extends StatefulWidget {
@@ -22,6 +23,7 @@ class _FastingState extends State<Fasting> {
   Timer? timer;
   bool isFasting = false;
   String fastingInformation = '';
+  double timePassed = 0;
 
   String formatNumber({required int numb}) {
     return numb > 9 ? '$numb' : '0$numb';
@@ -30,6 +32,7 @@ class _FastingState extends State<Fasting> {
   void compareDates() {
     DateTime now = DateTime.now();
     int diff = widget.fastingData.end.difference(now).inSeconds;
+    int startDiff = widget.fastingData.start.difference(now).inSeconds;
     bool isAfterStart = now.isAfter(widget.fastingData.start);
     int h, m, s;
 
@@ -46,6 +49,7 @@ class _FastingState extends State<Fasting> {
       () {
         isFasting = isFastingTime;
         fastingInformation = isFastingTime ? result : 'MOŻESZ JEŚĆ';
+        timePassed = startDiff.toDouble() * -1;
       },
     );
   }
@@ -83,34 +87,30 @@ class _FastingState extends State<Fasting> {
       onBack: () => BlocProvider.of<HomeBloc>(context).add(
         HomeShowPageBack(),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            textXL(
-              text: 'POZOSTAŁO:',
-              fontSize: 22,
-            ),
-            if (fastingInformation.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 28.0),
-                child: textXL(
-                  text: fastingInformation,
-                  fontSize: 76,
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (fastingInformation.isNotEmpty)
+                Gauge(
+                  valueAnnotation: fastingInformation,
+                  maxValue: widget.fastingData.durationInSeconds,
+                  value: timePassed,
                 ),
+              if (fastingInformation.isEmpty) const Loader(color: Colors.white),
+              textXL(
+                text: 'POCZĄTEK:',
+                fontSize: 22,
               ),
-            if (fastingInformation.isEmpty) const Loader(color: Colors.white),
-            textXL(
-              text: 'POCZĄTEK:',
-              fontSize: 22,
-            ),
-            textXL(text: widget.fastingData.formattedStart),
-            textXL(
-              text: 'KONIEC:',
-              fontSize: 22,
-            ),
-            textXL(text: widget.fastingData.formattedEnd),
-          ],
+              textXL(text: widget.fastingData.formattedStart),
+              textXL(
+                text: 'KONIEC:',
+                fontSize: 22,
+              ),
+              textXL(text: widget.fastingData.formattedEnd),
+            ],
+          ),
         ),
       ),
     );

@@ -123,8 +123,6 @@ class WaterService extends DataWaterService {
         [toDrink, id],
       );
 
-      print([toDrink, id]);
-
       return count > 0;
     } catch (e) {
       print(e.toString());
