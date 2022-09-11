@@ -22,7 +22,7 @@ class Gauge extends StatelessWidget {
           maximum: maxValue,
           showLabels: false,
           showAxisLine: false,
-          ranges: <GaugeRange>[
+          ranges: [
             GaugeRange(
               startValue: 0,
               endValue: maxValue,
@@ -49,10 +49,11 @@ class Gauge extends StatelessWidget {
               widget: Text(
                 valueAnnotation,
                 style: GoogleFonts.bebasNeue(
-                  fontSize: 72,
+                  fontSize: 58,
                   color: Colors.white,
                   fontWeight: FontWeight.w500,
                 ),
+                textAlign: TextAlign.center,
               ),
               angle: 90,
             )

@@ -69,7 +69,7 @@ class _FastingState extends State<Fasting> {
     super.dispose();
   }
 
-  Widget textXL({required String text, double fontSize = 72}) {
+  Widget textXL({required String text, double fontSize = 52}) {
     return Text(
       text,
       style: GoogleFonts.bebasNeue(
@@ -78,6 +78,33 @@ class _FastingState extends State<Fasting> {
         fontWeight: FontWeight.w500,
       ),
       textAlign: TextAlign.center,
+    );
+  }
+
+  Widget header() {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Text(
+        'POST',
+        style: GoogleFonts.poppins(
+          fontSize: 32,
+          color: Colors.white,
+          fontWeight: FontWeight.w500,
+        ),
+        textAlign: TextAlign.start,
+      ),
+    );
+  }
+
+  Widget description() {
+    return Text(
+      'Post pozwala nie tylko stracić na wadze, ale też wpływa pozytywnie na nasze zdrowie.',
+      style: GoogleFonts.poppins(
+        fontSize: 16,
+        color: Colors.white,
+        fontWeight: FontWeight.w400,
+      ),
+      textAlign: TextAlign.start,
     );
   }
 
@@ -92,13 +119,33 @@ class _FastingState extends State<Fasting> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (fastingInformation.isNotEmpty)
-                Gauge(
-                  valueAnnotation: fastingInformation,
-                  maxValue: widget.fastingData.durationInSeconds,
-                  value: timePassed,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Column(
+                  children: [
+                    header(),
+                    description(),
+                  ],
                 ),
-              if (fastingInformation.isEmpty) const Loader(color: Colors.white),
+              ),
+              if (fastingInformation.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 16.0,
+                    left: 16.0,
+                    right: 16.0,
+                  ),
+                  child: Gauge(
+                    valueAnnotation: fastingInformation,
+                    maxValue: widget.fastingData.durationInSeconds,
+                    value: timePassed,
+                  ),
+                ),
+              if (fastingInformation.isEmpty)
+                const SizedBox(
+                  height: 300,
+                  child: Loader(color: Colors.white),
+                ),
               textXL(
                 text: 'POCZĄTEK:',
                 fontSize: 22,
