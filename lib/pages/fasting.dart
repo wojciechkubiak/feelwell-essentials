@@ -1,14 +1,9 @@
 import 'dart:async';
-
-import 'package:feelwell_essentials/components/scaffold_wrapper.dart';
-import 'package:feelwell_essentials/models/fasting.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/material.dart';
 
-import '../blocs/home/home_bloc.dart';
-import '../components/gauge.dart';
-import '../components/loader.dart';
+import '../models/models.dart';
+import '../components/components.dart';
 
 class Fasting extends StatefulWidget {
   final FastingModel fastingData;

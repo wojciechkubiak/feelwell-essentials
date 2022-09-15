@@ -1,16 +1,10 @@
-import 'package:feelwell_essentials/components/button.dart';
-import 'package:feelwell_essentials/components/scaffold_wrapper.dart';
-import 'package:feelwell_essentials/models/ids.dart';
-import 'package:feelwell_essentials/services/water.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 
-import '../blocs/home/home_bloc.dart';
-import '../components/loader.dart';
-import '../components/transparent_button.dart';
-import '../models/water.dart';
+import '../services/services.dart';
+import '../components/components.dart';
+import '../models/models.dart';
 
 class Water extends StatefulWidget {
   final WaterModel water;

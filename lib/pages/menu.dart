@@ -1,16 +1,9 @@
-import 'package:feelwell_essentials/components/app_name.dart';
-import 'package:feelwell_essentials/components/navigation_button.dart';
-import 'package:feelwell_essentials/components/scaffold_wrapper.dart';
-import 'package:feelwell_essentials/pages/exercise.dart';
-import 'package:feelwell_essentials/pages/fasting.dart';
-import 'package:feelwell_essentials/pages/meditation.dart';
-import 'package:feelwell_essentials/pages/settings.dart';
-import 'package:feelwell_essentials/pages/water.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../blocs/home/home_bloc.dart';
+import '../components/components.dart';
 
 class Menu extends StatelessWidget {
   const Menu({Key? key}) : super(key: key);

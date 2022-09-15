@@ -1,21 +1,12 @@
-import 'package:feelwell_essentials/blocs/home/home_bloc.dart';
-import 'package:feelwell_essentials/config/color.dart';
-import 'package:feelwell_essentials/pages/Intro.dart';
-import 'package:feelwell_essentials/pages/Menu.dart';
-import 'package:feelwell_essentials/pages/error_page.dart';
-import 'package:feelwell_essentials/pages/exercise.dart';
-import 'package:feelwell_essentials/pages/fasting.dart';
-import 'package:feelwell_essentials/pages/loading.dart';
-import 'package:feelwell_essentials/pages/meditation.dart';
-import 'package:feelwell_essentials/pages/settings.dart';
-import 'package:feelwell_essentials/pages/water.dart';
-import 'package:feelwell_essentials/services/settings.dart';
-import 'package:feelwell_essentials/services/storage.dart';
-import 'package:feelwell_essentials/services/water.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import './models/pages.dart';
+
+import './blocs/home/home_bloc.dart';
+import './config/color.dart';
+import './pages/pages.dart';
+import './services/services.dart';
+import './models/models.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

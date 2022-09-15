@@ -1,6 +1,7 @@
-import 'package:feelwell_essentials/components/scaffold_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+
+import '../components/components.dart';
 
 class Loading extends StatelessWidget {
   const Loading({Key? key}) : super(key: key);

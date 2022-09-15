@@ -1,8 +1,7 @@
-import 'package:feelwell_essentials/components/app_name.dart';
-import 'package:feelwell_essentials/components/loader.dart';
-import 'package:feelwell_essentials/components/scaffold_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+
+import '../components/components.dart';
 
 class Intro extends StatelessWidget {
   const Intro({Key? key}) : super(key: key);

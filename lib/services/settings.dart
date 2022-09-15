@@ -1,8 +1,7 @@
 import 'dart:async';
-import 'package:feelwell_essentials/models/settings.dart';
-import 'package:feelwell_essentials/services/storage.dart';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
+
+import '../models/models.dart';
+import '../services/services.dart';
 
 abstract class DataSettingsService {
   Future<SettingsModel?> initSettings();
