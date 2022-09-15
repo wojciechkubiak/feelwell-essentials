@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import './blocs/home/home_bloc.dart';
 import './config/color.dart';
@@ -10,15 +11,24 @@ import './models/models.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
 
   StorageService storageService = StorageService();
   storageService.getDatabase;
 
-  runApp(const MyApp());
+  runApp(
+    EasyLocalization(
+      supportedLocales: const [Locale('pl', 'PL'), Locale('en', 'US')],
+      fallbackLocale: const Locale('pl', 'PL'),
+      path: 'assets/lang',
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -27,6 +37,9 @@ class MyApp extends StatelessWidget {
     ]);
 
     return MaterialApp(
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: customGreen,

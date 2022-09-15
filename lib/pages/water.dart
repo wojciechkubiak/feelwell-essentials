@@ -23,6 +23,7 @@ class Water extends StatefulWidget {
 class _WaterState extends State<Water> {
   final WaterService _waterService = WaterService();
   late WaterModel waterCopy;
+
   bool isError = false;
 
   @override
@@ -32,10 +33,12 @@ class _WaterState extends State<Water> {
   }
 
   Widget header() {
+    const String headerText = 'DZIENNIK PŁYNÓW';
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Text(
-        'DZIENNIK PŁYNÓW',
+        headerText,
         style: GoogleFonts.poppins(
           fontSize: 32,
           color: Colors.white,
@@ -47,8 +50,11 @@ class _WaterState extends State<Water> {
   }
 
   Widget description() {
+    const String descriptionText =
+        'Woda stanowi średnio 70% masy dorosłego człowieka, w przypadku noworodka ok. 15% więcej.';
+
     return Text(
-      'Woda stanowi średnio 70% masy dorosłego człowieka, w przypadku noworodka ok. 15% więcej.',
+      descriptionText,
       style: GoogleFonts.poppins(
         fontSize: 16,
         color: Colors.white,
@@ -58,17 +64,28 @@ class _WaterState extends State<Water> {
     );
   }
 
+  String parseAsFixed({required double value, int digits = 0}) {
+    return value.toStringAsFixed(digits);
+  }
+
   Widget metter() {
     String percentage =
-        (waterCopy.drunk / waterCopy.toDrink * 100).toStringAsFixed(0);
-    String drunkLiters = (waterCopy.drunk / 1000).toStringAsFixed(2);
-    String toDrinkLiters = (waterCopy.toDrink / 1000).toStringAsFixed(2);
+        parseAsFixed(value: (waterCopy.drunk / waterCopy.toDrink * 100));
+    String drunkLiters = parseAsFixed(
+      value: (waterCopy.drunk / 1000),
+      digits: 2,
+    );
+    String toDrinkLiters = parseAsFixed(
+      value: (waterCopy.toDrink / 1000),
+      digits: 2,
+    );
+    double size = 250;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 24),
       child: SizedBox(
-        width: 250,
-        height: 250,
+        width: size,
+        height: size,
         child: LiquidCircularProgressIndicator(
           value: waterCopy.drunk / waterCopy.toDrink, // Defaults to 0.5.
           valueColor: const AlwaysStoppedAnimation(
@@ -139,10 +156,13 @@ class _WaterState extends State<Water> {
   }
 
   Widget error() {
+    const String errorText =
+        'Coś poszło nie tak przy próbie dodania wody. Spróbuj ponownie.';
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 28.0),
       child: Text(
-        'Coś poszło nie tak przy próbie dodania wody. Spróbuj ponownie.',
+        errorText,
         style: GoogleFonts.poppins(
           fontSize: 12,
           color: Colors.white70,
@@ -154,6 +174,9 @@ class _WaterState extends State<Water> {
   }
 
   Widget body() {
+    const String minusSign = '-';
+    const String plusSign = '+';
+
     return ScaffoldWrapper(
       body: SingleChildScrollView(
         child: Column(
@@ -180,14 +203,15 @@ class _WaterState extends State<Water> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   button(
-                    sign: '-',
+                    sign: minusSign,
                     onClick: () async {
                       setState(() => isError = false);
 
                       int newWaterDrunk = waterCopy.drunk - widget.glassSize;
                       bool isWaterUpdated =
                           await _waterService.updateDrunkWater(
-                              drunk: newWaterDrunk > 0 ? newWaterDrunk : 0);
+                        drunk: newWaterDrunk > 0 ? newWaterDrunk : 0,
+                      );
 
                       if (isWaterUpdated) {
                         setState(() {
@@ -200,7 +224,7 @@ class _WaterState extends State<Water> {
                     },
                   ),
                   button(
-                    sign: '+',
+                    sign: plusSign,
                     onClick: () async {
                       setState(() => isError = false);
 
@@ -222,7 +246,11 @@ class _WaterState extends State<Water> {
               ),
             ),
             subtext(),
-            if (isError) error(),
+            if (isError)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 32.0),
+                child: error(),
+              ),
           ],
         ),
       ),

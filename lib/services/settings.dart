@@ -10,6 +10,7 @@ abstract class DataSettingsService {
 }
 
 class SettingsService extends DataSettingsService {
+  final StorageService storageService = StorageService();
   final SettingsModel _defaultSettings = SettingsModel(
     id: 1,
     waterToDrink: 2000,
@@ -24,13 +25,13 @@ class SettingsService extends DataSettingsService {
   @override
   Future<SettingsModel?> getSettings() async {
     try {
-      StorageService storageService = StorageService();
       final db = await storageService.getDatabase();
 
       List<Map<String, dynamic>> settingsList = [];
 
-      settingsList =
-          await db.rawQuery("SELECT * FROM settings ORDER BY id DESC LIMIT 1");
+      settingsList = await db.rawQuery(
+        "SELECT * FROM settings ORDER BY id DESC LIMIT 1",
+      );
 
       if (settingsList.isNotEmpty) {
         SettingsModel settings = SettingsModel.fromJson(settingsList[0]);
@@ -47,20 +48,19 @@ class SettingsService extends DataSettingsService {
   @override
   Future<SettingsModel?> initSettings() async {
     SettingsModel settings = _defaultSettings;
+
     try {
+      final db = await storageService.getDatabase();
       SettingsModel? existingSettings = await getSettings();
 
       if (existingSettings is SettingsModel) {
         return existingSettings;
       }
 
-      StorageService storageService = StorageService();
-      final db = await storageService.getDatabase();
-
       SettingsModel resultSettings =
           await db.insert('settings', _defaultSettings.toJson()).then(
         (value) {
-          print('INSERTED ${_defaultSettings.toJson()}');
+          print('INIT SETTINGS WITH ${_defaultSettings.toJson()}');
           return settings;
         },
       );
@@ -74,12 +74,10 @@ class SettingsService extends DataSettingsService {
 
   @override
   Future<bool> updateSettings({required SettingsModel settingsModel}) async {
-    StorageService storageService = StorageService();
-
     try {
       final db = await storageService.getDatabase();
-
       SettingsModel? currentSettings = await getSettings();
+
       if (currentSettings is SettingsModel) {
         int currentId = currentSettings.id;
 
@@ -103,6 +101,7 @@ class SettingsService extends DataSettingsService {
             currentId
           ],
         );
+
         return count > 0;
       }
 

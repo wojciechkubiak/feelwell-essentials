@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:easy_localization/easy_localization.dart';
 
+import '../lang/locale_keys.g.dart';
 import '../blocs/home/home_bloc.dart';
 import '../components/components.dart';
 import '../models/models.dart';
@@ -24,7 +26,6 @@ class _SettingsState extends State<Settings> {
   bool isError = false;
 
   TextEditingController? waterToDrinkController;
-  TextEditingController? fastingStart;
   TextEditingController? exerciseLengthController;
   TextEditingController? meditationLengthController;
 
@@ -52,7 +53,23 @@ class _SettingsState extends State<Settings> {
       builder: (context, childWidget) {
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(textScaleFactor: 1),
-          child: childWidget!,
+          child: Theme(
+            data: ThemeData.light().copyWith(
+              colorScheme: const ColorScheme.light(
+                primary: Colors.green,
+                onSurface: Colors.green,
+              ),
+              buttonTheme: const ButtonThemeData(
+                colorScheme: ColorScheme.light(
+                  primary: Colors.green,
+                ),
+              ),
+              textSelectionTheme: const TextSelectionThemeData(
+                cursorColor: Colors.green,
+              ),
+            ),
+            child: childWidget!,
+          ),
         );
       },
     );
@@ -61,29 +78,18 @@ class _SettingsState extends State<Settings> {
   }
 
   void loadSettings() async {
-    SettingsModel settings = widget.settings;
-
-    String fastingStartHour = settings.fastingStartHour > 9
-        ? '0${settings.fastingStartHour}'
-        : settings.fastingStartHour.toString();
-    String fastingStartMinutes = settings.fastingStartMinutes > 9
-        ? '0${settings.fastingStartMinutes}'
-        : settings.fastingStartMinutes.toString();
-
-    fastingStart = TextEditingController(
-      text: '$fastingStartHour:$fastingStartMinutes',
+    waterToDrinkController = TextEditingController(
+      text: widget.settings.waterToDrink.toString(),
     );
-    waterToDrinkController =
-        TextEditingController(text: settings.waterToDrink.toString());
     exerciseLengthController = TextEditingController(
-      text: (settings.exerciseLength / 60).toStringAsFixed(0),
+      text: (widget.settings.exerciseLength / 60).toStringAsFixed(0),
     );
     meditationLengthController = TextEditingController(
-      text: (settings.meditationLength / 60).toStringAsFixed(0),
+      text: (widget.settings.meditationLength / 60).toStringAsFixed(0),
     );
 
     setState(() {
-      settingsCopy = settings;
+      settingsCopy = widget.settings;
     });
   }
 
@@ -264,14 +270,14 @@ class _SettingsState extends State<Settings> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 18.0),
       child: Text(
-        'USTAWIENIA',
+        LocaleKeys.settings_header,
         style: GoogleFonts.poppins(
           fontSize: 32,
           color: Colors.white,
           fontWeight: FontWeight.w500,
         ),
         textAlign: TextAlign.start,
-      ),
+      ).tr(),
     );
   }
 
@@ -332,7 +338,7 @@ class _SettingsState extends State<Settings> {
                 tileOptions: ['12', '14', '16'],
                 currentOption: settings.fastingLength.toString(),
                 onPressed: (option) {
-                  settings.fastingLength = int.tryParse(option) ?? 12;
+                  settings.fastingLength = int.parse(option);
 
                   setState(() {
                     settingsCopy = settings;

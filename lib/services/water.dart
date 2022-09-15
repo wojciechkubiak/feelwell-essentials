@@ -12,13 +12,12 @@ abstract class DataWaterService {
 }
 
 class WaterService extends DataWaterService {
+  final StorageService storageService = StorageService();
+  final SettingsService settingsService = SettingsService();
+  final int id = Ids.getRecordId();
+
   @override
   Future<WaterModel?> initWaterRecord() async {
-    int id = Ids.getRecordId();
-
-    StorageService storageService = StorageService();
-    SettingsService settingsService = SettingsService();
-
     final db = await storageService.getDatabase();
 
     SettingsModel? settings = await settingsService.getSettings();
@@ -34,7 +33,7 @@ class WaterService extends DataWaterService {
       WaterModel insertedWater =
           await db.insert('water', defaultWater.toJson()).then(
         (value) {
-          print('INSERTED ${defaultWater.toJson()}');
+          print('WATER INIT WITH: ${defaultWater.toJson()}');
           return defaultWater;
         },
       );
@@ -48,13 +47,14 @@ class WaterService extends DataWaterService {
   @override
   Future<WaterModel?> getWater({required int id}) async {
     try {
-      StorageService storageService = StorageService();
       final db = await storageService.getDatabase();
 
       List<Map<String, dynamic>> waterList = [];
 
       waterList = await db.rawQuery(
-          "SELECT * FROM water WHERE id = ? ORDER BY id DESC LIMIT 1", [id]);
+        "SELECT * FROM water WHERE id = ? ORDER BY id DESC LIMIT 1",
+        [id],
+      );
 
       if (waterList.isNotEmpty) {
         WaterModel water = WaterModel.fromJson(waterList[0]);
@@ -70,11 +70,8 @@ class WaterService extends DataWaterService {
 
   @override
   Future<bool> updateWater({required WaterModel waterModel}) async {
-    StorageService storageService = StorageService();
-
     try {
       final db = await storageService.getDatabase();
-      int id = Ids.getRecordId();
 
       int count = await db.rawUpdate(
         'UPDATE water SET drunk = ?, toDrink = ? WHERE id = ?',
@@ -90,11 +87,8 @@ class WaterService extends DataWaterService {
 
   @override
   Future<bool> updateDrunkWater({required int drunk}) async {
-    StorageService storageService = StorageService();
-
     try {
       final db = await storageService.getDatabase();
-      int id = Ids.getRecordId();
 
       int count = await db.rawUpdate(
         'UPDATE water SET drunk = ? WHERE id = ?',
@@ -110,11 +104,8 @@ class WaterService extends DataWaterService {
 
   @override
   Future<bool> updateWaterToDrink({required int toDrink}) async {
-    StorageService storageService = StorageService();
-
     try {
       final db = await storageService.getDatabase();
-      int id = Ids.getRecordId();
 
       int count = await db.rawUpdate(
         'UPDATE water SET toDrink = ? WHERE id = ?',
