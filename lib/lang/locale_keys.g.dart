@@ -20,6 +20,10 @@ abstract class  LocaleKeys {
   static const exercise_headerDone = 'exercise.headerDone';
   static const exercise_description = 'exercise.description';
   static const exercise = 'exercise';
+  static const meditation_header = 'meditation.header';
+  static const meditation_headerDone = 'meditation.headerDone';
+  static const meditation_description = 'meditation.description';
+  static const meditation = 'meditation';
   static const fasting_youCanEat = 'fasting.youCanEat';
   static const fasting_header = 'fasting.header';
   static const fasting_description = 'fasting.description';

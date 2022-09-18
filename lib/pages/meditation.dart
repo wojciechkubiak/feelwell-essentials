@@ -1,11 +1,14 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:feelwell_essentials/components/components.dart';
 import 'package:feelwell_essentials/components/scaffold_wrapper.dart';
 import 'package:feelwell_essentials/services/meditation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../components/gauge.dart';
+import '../lang/locale_keys.g.dart';
 import '../models/models.dart';
 
 class Meditation extends StatefulWidget {
@@ -22,20 +25,43 @@ class _MeditationState extends State<Meditation> {
   late int timeLeft;
   Timer? timer;
   bool isDialog = false;
+  bool isCompleted = false;
+  bool isRunning = false;
+
+  void pauseTimer() {
+    if (mounted) setState(() => isRunning = false);
+    timer?.cancel();
+  }
+
+  void stopTimer() {
+    if (mounted) setState(() => isRunning = false);
+    timer?.cancel();
+    setState(() => timeLeft = widget.meditationData.duration);
+  }
 
   void runTimer() {
     if (timeLeft.floor() == 0) {
-      timer?.cancel();
+      stopTimer();
       meditationService.changeMeditationStatusToCompleted();
-      setState(() => timeLeft = widget.meditationData.duration);
+      if (mounted) {
+        setState(() {
+          timeLeft = widget.meditationData.duration;
+          isCompleted = true;
+        });
+      }
     } else {
-      setState(() => timeLeft = timeLeft - 1);
+      if (mounted) setState(() => timeLeft = timeLeft - 1);
     }
   }
 
   @override
   void initState() {
-    setState(() => timeLeft = widget.meditationData.duration);
+    if (mounted) {
+      setState(() {
+        timeLeft = widget.meditationData.duration;
+        isCompleted = widget.meditationData.isCompleted == 0 ? false : true;
+      });
+    }
     super.initState();
   }
 
@@ -53,27 +79,70 @@ class _MeditationState extends State<Meditation> {
     return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
   }
 
+  Widget header() {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Text(
+        LocaleKeys.meditation_header,
+        style: GoogleFonts.poppins(
+          fontSize: 32,
+          color: Colors.white,
+          fontWeight: FontWeight.w500,
+        ),
+        textAlign: TextAlign.start,
+      ).tr(namedArgs: {
+        'isDone':
+            isCompleted ? '(${LocaleKeys.meditation_headerDone.tr()})' : ''
+      }),
+    );
+  }
+
+  Widget description() {
+    return Text(
+      LocaleKeys.meditation_description,
+      style: GoogleFonts.poppins(
+        fontSize: 14,
+        color: Colors.white,
+        fontWeight: FontWeight.w300,
+      ),
+      textAlign: TextAlign.start,
+    ).tr();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScaffoldWrapper(
-      isDialog: isDialog,
+      isDialog: widget.meditationData.duration != timeLeft,
       body: SingleChildScrollView(
         child: Center(
           child: Column(
             children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                child: Column(
+                  children: [
+                    header(),
+                    description(),
+                  ],
+                ),
+              ),
               Gauge(
                 valueAnnotation: printDuration(seconds: timeLeft),
                 maxValue: widget.meditationData.duration.toDouble(),
                 value: timeLeft.toDouble(),
-              ),
-              Button(
-                text: 'START',
-                onPressed: () {
+                isNavigation: true,
+                isRunning: isRunning,
+                onPause: pauseTimer,
+                onPlay: () {
+                  if (mounted) setState(() => isRunning = true);
+
                   timer = Timer.periodic(
                     const Duration(seconds: 1),
                     (Timer t) => runTimer(),
                   );
                 },
+                onStop: stopTimer,
               ),
             ],
           ),

@@ -146,7 +146,7 @@ class _SettingsState extends State<Settings> {
                       color:
                           currentOption != option ? Colors.green : Colors.white,
                     ),
-                  ).tr(),
+                  ),
                 );
               },
             ).toList(),

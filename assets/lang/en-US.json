@@ -6,47 +6,52 @@
   },
   "dialog": {
     "header": "EXIT",
-    "info": "Wyjście skutkuje utratą dotychczasowego progresu. Czy chcesz kontynuować?",
-    "submit": "Tak",
-    "decline": "Nie"
+    "info": "The exit results in the loss of existing progress.Do you want to continue?",
+    "submit": "Yes",
+    "decline": "No"
   },
   "menu": {
-    "exercise": "Ćwiczenie",
-    "fasting": "Post",
-    "water": "Woda",
-    "meditation": "Medytacja",
-    "settings": "Ustawienia"
+    "exercise": "Exercise",
+    "fasting": "Fasting",
+    "water": "Water",
+    "meditation": "Meditation",
+    "settings": "Settings"
   },
   "exercise": {
-    "header": "Ćwiczenie {isDone}",
-    "headerDone": "WYK.",
-    "description": "Post pozwala nie tylko stracić na wadze, ale też wpływa pozytywnie na nasze zdrowie."
+    "header": "EXERCISE {isDone}",
+    "headerDone": "DONE",
+    "description": "Post not only allows you to lose weight, but also has a positive effect on our health."
+  },
+  "meditation": {
+    "header": "MEDITATION {isDone}",
+    "headerDone": "DONE",
+    "description": "Post not only allows you to lose weight, but also has a positive effect on our health."
   },
   "fasting": {
-    "youCanEat": "MOŻESZ JEŚĆ",
-    "header": "POST",
-    "description": "Post pozwala nie tylko stracić na wadze, ale też wpływa pozytywnie na nasze zdrowie.",
-    "start": "POCZĄTEK:",
-    "end": "KONIEC:"
+    "youCanEat": "YOU CAN EAT",
+    "header": "FASTING",
+    "description": "Post not only allows you to lose weight, but also has a positive effect on our health.",
+    "start": "START:",
+    "end": "END:"
   },
   "water": {
-    "header": "DZIENNIK PŁYNÓW",
-    "info": "Woda stanowi średnio 70% masy dorosłego człowieka, w przypadku noworodka ok. 15% więcej.",
-    "subinfo": "(Aktualna pojemność szklanki {glassSize}ml)",
-    "error": "Coś poszło nie tak przy próbie dodania wody. Spróbuj ponownie."
+    "header": "WATER DIARY",
+    "info": "Water is an average of 70% of the weight of an adult, about 15% more in the case of a newborn baby.",
+    "subinfo": "(Current glass capacity {glassSize}ml)",
+    "error": "Something went wrong when trying to add water.Try again."
   },
   "settings": {
-    "header": "USTAWIENIA",
-    "inputExpectedValue": "Wpisz oczekiwaną wartość",
-    "error": "Coś poszło nie tak przy próbie zapisu. Spróbuj ponownie.",
-    "glassSize": "Rozmiar szklanki (ml)",
-    "dailyWater": "Dzienna dawka wody (ml)",
-    "fastingLength": "Długość postu (h)",
-    "fastingStart": "Początek postu (hh:mm)",
-    "exerciseLength": "Długość ćwiczenia (min)",
-    "meditationLength": "Długość medytacji (min)",
-    "submit": "Zatwierdź",
-    "qty": "Ilość",
-    "length": "Długość"
+    "header": "SETTINGS",
+    "inputExpectedValue": "Enter the expected value",
+    "error": "Something went wrong when trying to write.Try again.",
+    "glassSize": "Glass size (ml)",
+    "dailyWater": "Daily dose of water (ml)",
+    "fastingLength": "Post length (h)",
+    "fastingStart": "Post start (hh:mm)",
+    "exerciseLength": "Exercise length (min)",
+    "meditationLength": "Meditation length (min)",
+    "submit": "Submit",
+    "qty": "Quantity",
+    "length": "Length"
   }
 }

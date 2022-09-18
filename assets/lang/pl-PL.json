@@ -18,7 +18,12 @@
     "settings": "Ustawienia"
   },
   "exercise": {
-    "header": "Ćwiczenie {isDone}",
+    "header": "ĆWICZENIE {isDone}",
+    "headerDone": "WYK.",
+    "description": "Post pozwala nie tylko stracić na wadze, ale też wpływa pozytywnie na nasze zdrowie."
+  },
+  "meditation": {
+    "header": "MEDYTACJA {isDone}",
     "headerDone": "WYK.",
     "description": "Post pozwala nie tylko stracić na wadze, ale też wpływa pozytywnie na nasze zdrowie."
   },
