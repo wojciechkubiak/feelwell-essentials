@@ -28,8 +28,12 @@ class HomeError extends HomeState {
 }
 
 class HomeExercise extends HomeState {
+  final ExerciseModel exerciseData;
+
+  HomeExercise({required this.exerciseData});
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [exerciseData];
 }
 
 class HomeFasting extends HomeState {
@@ -52,8 +56,12 @@ class HomeWater extends HomeState {
 }
 
 class HomeMeditation extends HomeState {
+  final MeditationModel meditationData;
+
+  HomeMeditation({required this.meditationData});
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [meditationData];
 }
 
 class HomeSettings extends HomeState {

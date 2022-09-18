@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:feelwell_essentials/lang/locale_keys.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,9 +36,9 @@ class Menu extends StatelessWidget {
                   children: [
                     NavigationButton(
                       icon: Icons.directions_run_outlined,
-                      text: 'Ćwiczenie',
+                      text: LocaleKeys.menu_exercise,
                       onPressed: () => BlocProvider.of<HomeBloc>(context).add(
-                        HomeShowWater(),
+                        HomeShowExercise(),
                       ),
                     ),
                     const SizedBox(
@@ -44,7 +46,7 @@ class Menu extends StatelessWidget {
                     ),
                     NavigationButton(
                       icon: Icons.food_bank_outlined,
-                      text: 'Post',
+                      text: LocaleKeys.menu_fasting,
                       onPressed: () => BlocProvider.of<HomeBloc>(context).add(
                         HomeShowFasting(),
                       ),
@@ -60,7 +62,7 @@ class Menu extends StatelessWidget {
                   children: [
                     NavigationButton(
                       icon: Icons.water_drop_outlined,
-                      text: 'Woda',
+                      text: LocaleKeys.menu_water,
                       onPressed: () => BlocProvider.of<HomeBloc>(context).add(
                         HomeShowWater(),
                       ),
@@ -70,9 +72,9 @@ class Menu extends StatelessWidget {
                     ),
                     NavigationButton(
                       icon: Icons.air_sharp,
-                      text: 'Medytacja',
+                      text: LocaleKeys.menu_meditation,
                       onPressed: () => BlocProvider.of<HomeBloc>(context).add(
-                        HomeShowWater(),
+                        HomeShowMeditation(),
                       ),
                     ),
                   ],
@@ -87,7 +89,7 @@ class Menu extends StatelessWidget {
                     children: [
                       NavigationButton(
                         icon: Icons.settings,
-                        text: 'Ustawienia',
+                        text: LocaleKeys.menu_settings,
                         onPressed: () => BlocProvider.of<HomeBloc>(context).add(
                           HomeShowSettings(),
                         ),

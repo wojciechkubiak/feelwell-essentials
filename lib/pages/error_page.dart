@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../components/components.dart';
+import '../lang/locale_keys.g.dart';
 
 class ErrorPage extends StatelessWidget {
   const ErrorPage({super.key});
@@ -20,7 +22,7 @@ class ErrorPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Coś poszło nie tak!',
+                  LocaleKeys.error_header.tr(),
                   style: GoogleFonts.bebasNeue(
                     fontSize: 62,
                     color: Colors.white,
@@ -29,7 +31,7 @@ class ErrorPage extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'Spróbuj uruchomić ponownie aplikację. Pomóc może również reset danych aplikacji lub ponowna instalacja. Jeśli to nie pomoże, napisz do nas.',
+                  LocaleKeys.error_description.tr(),
                   style: GoogleFonts.poppins(
                     fontSize: 18,
                     color: Colors.white,

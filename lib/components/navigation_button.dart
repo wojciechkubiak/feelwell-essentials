@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -27,7 +28,7 @@ class NavigationButton extends StatelessWidget {
               width: 2,
             ),
           ),
-          primary: isFilled ? Colors.green : Colors.white,
+          backgroundColor: isFilled ? Colors.green : Colors.white,
           padding: const EdgeInsets.symmetric(
             vertical: 32,
             horizontal: 12,
@@ -46,7 +47,7 @@ class NavigationButton extends StatelessWidget {
                 color: isFilled ? Colors.white : Colors.black54,
                 fontWeight: FontWeight.w400,
               ),
-            ),
+            ).tr(),
             if (icon is IconData)
               Icon(
                 icon,

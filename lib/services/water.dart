@@ -5,7 +5,7 @@ import '../services/services.dart';
 
 abstract class DataWaterService {
   Future<WaterModel?> initWaterRecord();
-  Future<WaterModel?> getWater({required int id});
+  Future<WaterModel?> getWater();
   Future<bool> updateWater({required WaterModel waterModel});
   Future<bool> updateDrunkWater({required int drunk});
   Future<bool> updateWaterToDrink({required int toDrink});
@@ -21,7 +21,7 @@ class WaterService extends DataWaterService {
     final db = await storageService.getDatabase();
 
     SettingsModel? settings = await settingsService.getSettings();
-    WaterModel? water = await getWater(id: id);
+    WaterModel? water = await getWater();
 
     if (settings is SettingsModel && water is! WaterModel) {
       WaterModel defaultWater = WaterModel(
@@ -45,7 +45,7 @@ class WaterService extends DataWaterService {
   }
 
   @override
-  Future<WaterModel?> getWater({required int id}) async {
+  Future<WaterModel?> getWater() async {
     try {
       final db = await storageService.getDatabase();
 

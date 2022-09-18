@@ -19,9 +19,9 @@ class StorageService extends DataStorageService {
         await db.execute(
             'CREATE TABLE fasting (id INTEGER, startHour INTEGER, startMinutes INTEGER, fastinglength INTEGER)');
         await db.execute(
-            'CREATE TABLE exercise (id INTEGER, duration INTEGER, completed INTEGER)');
-        await db
-            .execute('CREATE TABLE meditation (id INTEGER, duration INTEGER)');
+            'CREATE TABLE exercise (id INTEGER, duration INTEGER, isCompleted INTEGER)');
+        await db.execute(
+            'CREATE TABLE meditation (id INTEGER, duration INTEGER, isCompleted INTEGER)');
       },
       version: 1,
     );

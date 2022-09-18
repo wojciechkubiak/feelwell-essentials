@@ -1,5 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../lang/locale_keys.g.dart';
 
 class AppName extends StatelessWidget {
   final Color color;
@@ -14,7 +17,7 @@ class AppName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      'Feelwell Essentials',
+      LocaleKeys.appName.tr(),
       textAlign: TextAlign.center,
       style: GoogleFonts.bebasNeue(
         fontSize: fontSize,

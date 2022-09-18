@@ -1,5 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../lang/locale_keys.g.dart';
 
 class ErrorInfo extends StatelessWidget {
   const ErrorInfo({Key? key}) : super(key: key);
@@ -9,7 +12,7 @@ class ErrorInfo extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32),
       child: Text(
-        'Something went wrong and your settings data could not get loaded. Try to clean your app storage or to reinstall your application',
+        LocaleKeys.error_description.tr(),
         textAlign: TextAlign.center,
         style: GoogleFonts.bebasNeue(
           fontSize: 16,

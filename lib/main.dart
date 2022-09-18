@@ -75,6 +75,16 @@ class _MyHomePageState extends State<MyHomePage> {
             return WaterService();
           },
         ),
+        RepositoryProvider<ExerciseService>(
+          create: (context) {
+            return ExerciseService();
+          },
+        ),
+        RepositoryProvider<MeditationService>(
+          create: (context) {
+            return MeditationService();
+          },
+        ),
       ],
       child: _multiBlocProvider(),
     );
@@ -88,10 +98,16 @@ class _MyHomePageState extends State<MyHomePage> {
             final settingsService =
                 RepositoryProvider.of<SettingsService>(context);
             final waterService = RepositoryProvider.of<WaterService>(context);
+            final exerciseService =
+                RepositoryProvider.of<ExerciseService>(context);
+            final meditationService =
+                RepositoryProvider.of<MeditationService>(context);
 
             return HomeBloc(
               waterService,
               settingsService,
+              exerciseService,
+              meditationService,
             )..add(HomeShowPage());
           },
         ),
@@ -110,7 +126,9 @@ class _MyHomePageState extends State<MyHomePage> {
           return const Loading();
         }
         if (state is HomeExercise) {
-          return const Exercise();
+          return Exercise(
+            exerciseData: state.exerciseData,
+          );
         }
         if (state is HomeFasting) {
           return Fasting(fastingData: state.fastingData);
@@ -122,7 +140,9 @@ class _MyHomePageState extends State<MyHomePage> {
           );
         }
         if (state is HomeMeditation) {
-          return const Meditation();
+          return Meditation(
+            meditationData: state.meditationData,
+          );
         }
         if (state is HomeSettings) {
           return Settings(

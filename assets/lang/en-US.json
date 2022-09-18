@@ -1,5 +1,52 @@
 {
+  "appName": "FEELWELL ESSENTIALS",
+  "error": {
+    "header": "Something went wrong!",
+    "description": "Your settings data could not get loaded. Try to clean your app storage or to reinstall your application"
+  },
+  "dialog": {
+    "header": "EXIT",
+    "info": "Wyjście skutkuje utratą dotychczasowego progresu. Czy chcesz kontynuować?",
+    "submit": "Tak",
+    "decline": "Nie"
+  },
+  "menu": {
+    "exercise": "Ćwiczenie",
+    "fasting": "Post",
+    "water": "Woda",
+    "meditation": "Medytacja",
+    "settings": "Ustawienia"
+  },
+  "exercise": {
+    "header": "Ćwiczenie {isDone}",
+    "headerDone": "WYK.",
+    "description": "Post pozwala nie tylko stracić na wadze, ale też wpływa pozytywnie na nasze zdrowie."
+  },
+  "fasting": {
+    "youCanEat": "MOŻESZ JEŚĆ",
+    "header": "POST",
+    "description": "Post pozwala nie tylko stracić na wadze, ale też wpływa pozytywnie na nasze zdrowie.",
+    "start": "POCZĄTEK:",
+    "end": "KONIEC:"
+  },
+  "water": {
+    "header": "DZIENNIK PŁYNÓW",
+    "info": "Woda stanowi średnio 70% masy dorosłego człowieka, w przypadku noworodka ok. 15% więcej.",
+    "subinfo": "(Aktualna pojemność szklanki {glassSize}ml)",
+    "error": "Coś poszło nie tak przy próbie dodania wody. Spróbuj ponownie."
+  },
   "settings": {
-    "header": "SETTINGS"
+    "header": "USTAWIENIA",
+    "inputExpectedValue": "Wpisz oczekiwaną wartość",
+    "error": "Coś poszło nie tak przy próbie zapisu. Spróbuj ponownie.",
+    "glassSize": "Rozmiar szklanki (ml)",
+    "dailyWater": "Dzienna dawka wody (ml)",
+    "fastingLength": "Długość postu (h)",
+    "fastingStart": "Początek postu (hh:mm)",
+    "exerciseLength": "Długość ćwiczenia (min)",
+    "meditationLength": "Długość medytacji (min)",
+    "submit": "Zatwierdź",
+    "qty": "Ilość",
+    "length": "Długość"
   }
 }

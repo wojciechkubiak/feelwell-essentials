@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:feelwell_essentials/lang/locale_keys.g.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
@@ -33,35 +35,30 @@ class _WaterState extends State<Water> {
   }
 
   Widget header() {
-    const String headerText = 'DZIENNIK PŁYNÓW';
-
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Text(
-        headerText,
+        LocaleKeys.water_header,
         style: GoogleFonts.poppins(
           fontSize: 32,
           color: Colors.white,
           fontWeight: FontWeight.w500,
         ),
         textAlign: TextAlign.start,
-      ),
+      ).tr(),
     );
   }
 
   Widget description() {
-    const String descriptionText =
-        'Woda stanowi średnio 70% masy dorosłego człowieka, w przypadku noworodka ok. 15% więcej.';
-
     return Text(
-      descriptionText,
+      LocaleKeys.water_info,
       style: GoogleFonts.poppins(
-        fontSize: 16,
+        fontSize: 14,
         color: Colors.white,
-        fontWeight: FontWeight.w400,
+        fontWeight: FontWeight.w300,
       ),
       textAlign: TextAlign.start,
-    );
+    ).tr();
   }
 
   String parseAsFixed({required double value, int digits = 0}) {
@@ -145,24 +142,21 @@ class _WaterState extends State<Water> {
 
   Widget subtext() {
     return Text(
-      '(Aktualna pojemność szklanki ${widget.glassSize}ml)',
+      LocaleKeys.water_subinfo,
       style: GoogleFonts.poppins(
         fontSize: 12,
         color: Colors.white70,
         fontWeight: FontWeight.w400,
       ),
       textAlign: TextAlign.start,
-    );
+    ).tr(namedArgs: {'glassSize': widget.glassSize.toString()});
   }
 
   Widget error() {
-    const String errorText =
-        'Coś poszło nie tak przy próbie dodania wody. Spróbuj ponownie.';
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 28.0),
       child: Text(
-        errorText,
+        LocaleKeys.water_error,
         style: GoogleFonts.poppins(
           fontSize: 12,
           color: Colors.white70,

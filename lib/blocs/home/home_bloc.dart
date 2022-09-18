@@ -1,15 +1,8 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:feelwell_essentials/models/fasting.dart';
-import 'package:feelwell_essentials/models/ids.dart';
-import 'package:feelwell_essentials/services/settings.dart';
-import 'package:feelwell_essentials/services/water.dart';
-
-import '../../models/water.dart';
-import '../../models/settings.dart';
-import '../../services/water.dart';
-import '../../services/settings.dart';
+import '../../services/services.dart';
+import '../../models/models.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -17,12 +10,18 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final WaterService _waterService;
   final SettingsService _settingsService;
+  final MeditationService _meditationService;
+  final ExerciseService _exerciseService;
 
   HomeBloc(
     WaterService waterService,
     SettingsService settingsService,
+    ExerciseService exerciseService,
+    MeditationService meditationService,
   )   : _waterService = waterService,
         _settingsService = settingsService,
+        _exerciseService = exerciseService,
+        _meditationService = meditationService,
         super(HomeInitial()) {
     on<HomeShowPage>(_mapHomePage);
     on<HomeShowPageBack>(_mapHomePageBack);
@@ -42,8 +41,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     try {
       SettingsModel? settingsData = await _settingsService.initSettings();
       WaterModel? waterData = await _waterService.initWaterRecord();
+      ExerciseModel? exerciseModel = await _exerciseService.initExercise();
+      MeditationModel? meditationModel =
+          await _meditationService.initMeditation();
 
-      if (settingsData is SettingsModel && waterData is WaterModel) {
+      if (settingsData is SettingsModel &&
+          waterData is WaterModel &&
+          exerciseModel is ExerciseModel &&
+          meditationModel is MeditationModel) {
         emit(HomePage());
       } else {
         emit(HomeError());
@@ -67,7 +72,20 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   void _mapHomeExercise(HomeEvent event, Emitter<HomeState> emit) async {
-    emit(HomeExercise());
+    emit(HomeLoading());
+    try {
+      ExerciseModel? exerciseData = await _exerciseService.getExercise();
+      SettingsModel? settingsModel = await _settingsService.getSettings();
+
+      if (exerciseData is ExerciseModel && settingsModel is SettingsModel) {
+        emit(HomeExercise(exerciseData: exerciseData));
+      } else {
+        emit(HomeError());
+      }
+    } catch (e) {
+      print(e.toString());
+      emit(HomeError());
+    }
   }
 
   void _mapHomeFasting(HomeEvent event, Emitter<HomeState> emit) async {
@@ -94,9 +112,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   void _mapHomeWater(HomeEvent event, Emitter<HomeState> emit) async {
     emit(HomeLoading());
     try {
-      int id = Ids.getRecordId();
-
-      WaterModel? waterData = await _waterService.getWater(id: id);
+      WaterModel? waterData = await _waterService.getWater();
       SettingsModel? settingsModel = await _settingsService.getSettings();
 
       if (waterData is WaterModel && settingsModel is SettingsModel) {
@@ -111,7 +127,21 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   void _mapHomeMeditation(HomeEvent event, Emitter<HomeState> emit) async {
-    emit(HomeMeditation());
+    emit(HomeLoading());
+    try {
+      MeditationModel? meditationData =
+          await _meditationService.getMeditation();
+      SettingsModel? settingsModel = await _settingsService.getSettings();
+
+      if (meditationData is MeditationModel && settingsModel is SettingsModel) {
+        emit(HomeMeditation(meditationData: meditationData));
+      } else {
+        emit(HomeError());
+      }
+    } catch (e) {
+      print(e.toString());
+      emit(HomeError());
+    }
   }
 
   void _mapHomeSettings(HomeEvent event, Emitter<HomeState> emit) async {

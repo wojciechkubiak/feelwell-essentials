@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:feelwell_essentials/lang/locale_keys.g.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 
@@ -43,7 +45,8 @@ class _FastingState extends State<Fasting> {
     setState(
       () {
         isFasting = isFastingTime;
-        fastingInformation = isFastingTime ? result : 'MOŻESZ JEŚĆ';
+        fastingInformation =
+            isFastingTime ? result : LocaleKeys.fasting_youCanEat.tr();
         timePassed = startDiff.toDouble() * -1;
       },
     );
@@ -80,27 +83,27 @@ class _FastingState extends State<Fasting> {
     return Align(
       alignment: Alignment.centerLeft,
       child: Text(
-        'POST',
+        LocaleKeys.fasting_header,
         style: GoogleFonts.poppins(
           fontSize: 32,
           color: Colors.white,
           fontWeight: FontWeight.w500,
         ),
         textAlign: TextAlign.start,
-      ),
+      ).tr(),
     );
   }
 
   Widget description() {
     return Text(
-      'Post pozwala nie tylko stracić na wadze, ale też wpływa pozytywnie na nasze zdrowie.',
+      LocaleKeys.fasting_description,
       style: GoogleFonts.poppins(
-        fontSize: 16,
+        fontSize: 14,
         color: Colors.white,
-        fontWeight: FontWeight.w400,
+        fontWeight: FontWeight.w300,
       ),
       textAlign: TextAlign.start,
-    );
+    ).tr();
   }
 
   @override
@@ -139,12 +142,12 @@ class _FastingState extends State<Fasting> {
                   child: Loader(color: Colors.white),
                 ),
               textXL(
-                text: 'POCZĄTEK:',
+                text: LocaleKeys.fasting_start.tr(),
                 fontSize: 22,
               ),
               textXL(text: widget.fastingData.formattedStart),
               textXL(
-                text: 'KONIEC:',
+                text: LocaleKeys.fasting_end.tr(),
                 fontSize: 22,
               ),
               textXL(text: widget.fastingData.formattedEnd),

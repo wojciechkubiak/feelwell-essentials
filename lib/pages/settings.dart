@@ -23,6 +23,9 @@ class _SettingsState extends State<Settings> {
   late SettingsModel settingsCopy;
   SettingsService settingsService = SettingsService();
   WaterService waterService = WaterService();
+  ExerciseService exerciseService = ExerciseService();
+  MeditationService meditationService = MeditationService();
+
   bool isError = false;
 
   TextEditingController? waterToDrinkController;
@@ -104,14 +107,14 @@ class _SettingsState extends State<Settings> {
       child: Column(
         children: [
           Text(
-            '$header :',
+            header,
             textAlign: TextAlign.center,
             style: GoogleFonts.poppins(
               fontSize: 20,
               color: Colors.white,
               fontWeight: FontWeight.w300,
             ),
-          ),
+          ).tr(),
           const SizedBox(
             height: 22,
           ),
@@ -143,7 +146,7 @@ class _SettingsState extends State<Settings> {
                       color:
                           currentOption != option ? Colors.green : Colors.white,
                     ),
-                  ),
+                  ).tr(),
                 );
               },
             ).toList(),
@@ -165,14 +168,14 @@ class _SettingsState extends State<Settings> {
           Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
             child: Text(
-              '$header :',
+              header,
               textAlign: TextAlign.center,
               style: GoogleFonts.poppins(
                 fontSize: 20,
                 color: Colors.white,
                 fontWeight: FontWeight.w300,
               ),
-            ),
+            ).tr(),
           ),
           TextField(
             textAlign: TextAlign.center,
@@ -183,7 +186,7 @@ class _SettingsState extends State<Settings> {
             ),
             cursorColor: Colors.white,
             decoration: InputDecoration(
-              labelText: label,
+              labelText: label.tr(),
               labelStyle: const TextStyle(color: Colors.white),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -197,7 +200,7 @@ class _SettingsState extends State<Settings> {
                 borderRadius: BorderRadius.circular(20),
                 borderSide: const BorderSide(color: Colors.white, width: 2),
               ),
-              hintText: 'Wpisz oczekiwaną wartość',
+              hintText: LocaleKeys.settings_inputExpectedValue.tr(),
               hintStyle: const TextStyle(
                 color: Colors.white,
                 fontSize: 18,
@@ -228,14 +231,14 @@ class _SettingsState extends State<Settings> {
         children: [
           if (header is String)
             Text(
-              '$header :',
+              header,
               textAlign: TextAlign.center,
               style: GoogleFonts.poppins(
                 fontSize: 20,
                 color: Colors.white,
                 fontWeight: FontWeight.w300,
               ),
-            ),
+            ).tr(),
           GestureDetector(
             onTap: () async {
               TimeOfDay? newTime = await _selectTime(
@@ -285,14 +288,14 @@ class _SettingsState extends State<Settings> {
     return Padding(
       padding: const EdgeInsets.only(left: 28.0, right: 28.0, bottom: 20.0),
       child: Text(
-        'Coś poszło nie tak przy próbie zapisu. Spróbuj ponownie.',
+        LocaleKeys.settings_error,
         style: GoogleFonts.poppins(
           fontSize: 12,
           color: Colors.white70,
           fontWeight: FontWeight.w200,
         ),
         textAlign: TextAlign.start,
-      ),
+      ).tr(),
     );
   }
 
@@ -317,7 +320,7 @@ class _SettingsState extends State<Settings> {
             children: [
               header(),
               tilePicker(
-                header: 'Rozmiar szklanki (ml)',
+                header: LocaleKeys.settings_glassSize,
                 tileOptions: ['250', '300', '330'],
                 currentOption: settings.glassSize.toString(),
                 onPressed: (option) {
@@ -329,12 +332,12 @@ class _SettingsState extends State<Settings> {
                 },
               ),
               inputField(
-                header: 'Dzienna dawka wody (ml)',
-                label: 'Ilość',
+                header: LocaleKeys.settings_dailyWater,
+                label: LocaleKeys.settings_qty,
                 controller: waterToDrinkController!,
               ),
               tilePicker(
-                header: 'Długość postu',
+                header: LocaleKeys.settings_fastingLength,
                 tileOptions: ['12', '14', '16'],
                 currentOption: settings.fastingLength.toString(),
                 onPressed: (option) {
@@ -346,25 +349,25 @@ class _SettingsState extends State<Settings> {
                 },
               ),
               hourPicker(
-                header: 'Początek postu',
+                header: LocaleKeys.settings_fastingStart,
                 settingsData: settingsCopy,
                 hourKey: 'fastingStartHour',
                 minutesKey: 'fastingStartMinutes',
               ),
               inputField(
-                header: 'Długość ćwiczenia (min)',
-                label: 'Długość',
+                header: LocaleKeys.settings_fastingLength,
+                label: LocaleKeys.settings_length,
                 controller: exerciseLengthController!,
               ),
               inputField(
-                header: 'Długość medytacji (min)',
-                label: 'Długość',
+                header: LocaleKeys.settings_meditationLength,
+                label: LocaleKeys.settings_length,
                 controller: meditationLengthController!,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 32.0),
                 child: Button(
-                  text: 'Zatwierdź',
+                  text: LocaleKeys.settings_submit.tr(),
                   onPressed: () async {
                     setState(() => isError = false);
 
@@ -391,8 +394,19 @@ class _SettingsState extends State<Settings> {
                     bool isWaterUpdated = await waterService.updateWaterToDrink(
                       toDrink: settings.waterToDrink,
                     );
+                    bool isExerciseUpdated =
+                        await exerciseService.updateExerciseDuration(
+                      durationInSeconds: settings.exerciseLength,
+                    );
+                    bool isMeditationUpdated =
+                        await meditationService.updateMeditationDuration(
+                      durationInSeconds: settings.meditationLength,
+                    );
 
-                    if (isSettingsUpdated && isWaterUpdated) {
+                    if (isSettingsUpdated &&
+                        isWaterUpdated &&
+                        isExerciseUpdated &&
+                        isMeditationUpdated) {
                       goHomePage();
                     } else {
                       setState(() => isError = true);
