@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:feelwell_essentials/components/components.dart';
 
@@ -23,18 +24,64 @@ class _ExerciseState extends State<Exercise> {
   final ExerciseService exerciseService = ExerciseService();
   late int timeLeft;
   Timer? timer;
+  AudioPlayer sfxPlayer = AudioPlayer();
   bool isDialog = false;
   bool isCompleted = false;
   bool isRunning = false;
+  bool isSoundEnabled = true;
+  bool isSFXRunning = false;
+
+  @override
+  void initState() {
+    handleSource();
+    if (mounted) {
+      setState(() {
+        timeLeft = 15;
+        isCompleted = widget.exerciseData.isCompleted == 0 ? false : true;
+      });
+    }
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    sfxPlayer.dispose();
+    timer?.cancel();
+    super.dispose();
+  }
+
+  Future<void> handleSource() async {
+    await sfxPlayer.setSource(AssetSource("sound/countdown.mp3"));
+  }
+
+  Future<void> playTimerClick() async {
+    await sfxPlayer.resume();
+  }
+
+  Future<void> stop() async {
+    await sfxPlayer.stop();
+  }
+
+  Future<void> pause() async {
+    await sfxPlayer.pause();
+  }
+
+  void handleIsSFXPlaying({required bool isPlaying}) {
+    setState(() => isSFXRunning = isPlaying);
+  }
 
   void pauseTimer() {
+    pause();
     if (mounted) setState(() => isRunning = false);
     timer?.cancel();
+    handleIsSFXPlaying(isPlaying: false);
   }
 
   void stopTimer() {
+    stop();
     if (mounted) setState(() => isRunning = false);
     timer?.cancel();
+    handleIsSFXPlaying(isPlaying: false);
     setState(() => timeLeft = widget.exerciseData.duration);
   }
 
@@ -49,25 +96,12 @@ class _ExerciseState extends State<Exercise> {
         });
       }
     } else {
+      if (timeLeft.floor() <= 11 && !isSFXRunning) {
+        handleIsSFXPlaying(isPlaying: true);
+        playTimerClick();
+      }
       if (mounted) setState(() => timeLeft = timeLeft - 1);
     }
-  }
-
-  @override
-  void initState() {
-    if (mounted) {
-      setState(() {
-        timeLeft = widget.exerciseData.duration;
-        isCompleted = widget.exerciseData.isCompleted == 0 ? false : true;
-      });
-    }
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    timer?.cancel();
-    super.dispose();
   }
 
   String printDuration({required int seconds}) {
@@ -132,6 +166,7 @@ class _ExerciseState extends State<Exercise> {
                 isNavigation: true,
                 isRunning: isRunning,
                 onPause: pauseTimer,
+                isPauseDisabled: isSFXRunning,
                 onPlay: () {
                   if (mounted) setState(() => isRunning = true);
 

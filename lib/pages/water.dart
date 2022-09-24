@@ -86,11 +86,11 @@ class _WaterState extends State<Water> {
         child: LiquidCircularProgressIndicator(
           value: waterCopy.drunk / waterCopy.toDrink, // Defaults to 0.5.
           valueColor: const AlwaysStoppedAnimation(
-            Colors.white54,
+            Colors.white60,
           ),
           backgroundColor: Colors.green,
           borderColor: Colors.white,
-          borderWidth: 2,
+          borderWidth: 8,
           direction: Axis.vertical,
           center: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -179,7 +179,7 @@ class _WaterState extends State<Water> {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(
-                horizontal: 42,
+                horizontal: 12,
                 vertical: 24,
               ),
               child: Column(

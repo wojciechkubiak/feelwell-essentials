@@ -10,9 +10,13 @@ class Gauge extends StatelessWidget {
   final double value;
   final bool isNavigation;
   final bool? isRunning;
+  final bool? isSound;
+  final bool? isSoundEnabled;
+  final bool isPauseDisabled;
   final void Function()? onPause;
   final void Function()? onPlay;
   final void Function()? onStop;
+  final void Function()? onSoundEnabledChange;
 
   const Gauge({
     Key? key,
@@ -20,10 +24,14 @@ class Gauge extends StatelessWidget {
     required this.maxValue,
     required this.value,
     this.isNavigation = false,
+    this.isPauseDisabled = false,
+    this.isSound = false,
+    this.isSoundEnabled = true,
     this.isRunning,
     this.onPause,
     this.onPlay,
     this.onStop,
+    this.onSoundEnabledChange,
   }) : super(key: key);
 
   @override
@@ -49,7 +57,7 @@ class Gauge extends StatelessWidget {
                 color: Colors.white,
                 size: 102,
               ),
-              onPressed: onPause,
+              onPressed: !isPauseDisabled ? onPause : null,
             ),
           if (!isRunning!)
             TransparentButton(
@@ -60,6 +68,16 @@ class Gauge extends StatelessWidget {
                 size: 102,
               ),
               onPressed: onPlay,
+            ),
+          if (isSound!)
+            TransparentButton(
+              padding: EdgeInsets.zero,
+              body: Icon(
+                isSoundEnabled! ? Icons.music_note : Icons.music_off,
+                color: Colors.white,
+                size: 52,
+              ),
+              onPressed: onSoundEnabledChange,
             ),
         ],
       );

@@ -2,12 +2,11 @@ import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:feelwell_essentials/components/components.dart';
-import 'package:feelwell_essentials/components/scaffold_wrapper.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:feelwell_essentials/services/meditation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../components/gauge.dart';
 import '../lang/locale_keys.g.dart';
 import '../models/models.dart';
 
@@ -27,16 +26,93 @@ class _MeditationState extends State<Meditation> {
   bool isDialog = false;
   bool isCompleted = false;
   bool isRunning = false;
+  bool isSoundEnabled = true;
+  bool isSFXRunning = false;
+  AudioPlayer musicPlayer = AudioPlayer();
+  AudioPlayer sfxPlayer = AudioPlayer();
+
+  @override
+  void initState() {
+    handleSource();
+    musicPlayer.setVolume(1);
+    if (mounted) {
+      setState(() {
+        timeLeft = widget.meditationData.duration;
+        isCompleted = widget.meditationData.isCompleted == 0 ? false : true;
+      });
+    }
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    musicPlayer.dispose();
+    sfxPlayer.dispose();
+    super.dispose();
+  }
+
+  Future<void> handleSource() async {
+    await musicPlayer.setSource(AssetSource("sound/music.mp3"));
+    await sfxPlayer.setSource(AssetSource("sound/countdown.mp3"));
+  }
+
+  Future<void> onSoundEnabledChange() async {
+    if (isSoundEnabled) {
+      if (isRunning) {
+        pauseMusic();
+      }
+      setState(() => isSoundEnabled = false);
+    } else {
+      if (isRunning) {
+        play();
+      }
+      setState(() => isSoundEnabled = true);
+    }
+  }
+
+  Future<void> play() async {
+    await musicPlayer.resume();
+  }
+
+  Future<void> playSFX() async {
+    await sfxPlayer.resume();
+  }
+
+  Future<void> stop() async {
+    handleIsSFXPlaying(isPlaying: false);
+    await musicPlayer.stop();
+    await sfxPlayer.stop();
+  }
+
+  Future<void> pauseMusic() async {
+    await musicPlayer.pause();
+  }
+
+  Future<void> pauseSFX() async {
+    handleIsSFXPlaying(isPlaying: false);
+    await sfxPlayer.pause();
+  }
 
   void pauseTimer() {
+    if (isSoundEnabled) pauseMusic();
+
     if (mounted) setState(() => isRunning = false);
     timer?.cancel();
   }
 
   void stopTimer() {
+    if (isSoundEnabled) {
+      stop();
+    }
     if (mounted) setState(() => isRunning = false);
     timer?.cancel();
+    handleIsSFXPlaying(isPlaying: false);
     setState(() => timeLeft = widget.meditationData.duration);
+  }
+
+  void handleIsSFXPlaying({required bool isPlaying}) {
+    setState(() => isSFXRunning = isPlaying);
   }
 
   void runTimer() {
@@ -50,25 +126,12 @@ class _MeditationState extends State<Meditation> {
         });
       }
     } else {
+      if (timeLeft.floor() <= 11 && !isSFXRunning) {
+        handleIsSFXPlaying(isPlaying: true);
+        playSFX();
+      }
       if (mounted) setState(() => timeLeft = timeLeft - 1);
     }
-  }
-
-  @override
-  void initState() {
-    if (mounted) {
-      setState(() {
-        timeLeft = widget.meditationData.duration;
-        isCompleted = widget.meditationData.isCompleted == 0 ? false : true;
-      });
-    }
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    timer?.cancel();
-    super.dispose();
   }
 
   String printDuration({required int seconds}) {
@@ -134,7 +197,13 @@ class _MeditationState extends State<Meditation> {
                 isNavigation: true,
                 isRunning: isRunning,
                 onPause: pauseTimer,
+                isSound: true,
+                isSoundEnabled: isSoundEnabled,
+                isPauseDisabled: isSFXRunning,
+                onSoundEnabledChange: onSoundEnabledChange,
                 onPlay: () {
+                  if (isSoundEnabled) play();
+
                   if (mounted) setState(() => isRunning = true);
 
                   timer = Timer.periodic(

@@ -6,7 +6,7 @@
   },
   "dialog": {
     "header": "EXIT",
-    "info": "The exit results in the loss of existing progress.Do you want to continue?",
+    "info": "The exit results in the loss of existing progress. Do you want to continue?",
     "submit": "Yes",
     "decline": "No"
   },
@@ -20,23 +20,23 @@
   "exercise": {
     "header": "EXERCISE {isDone}",
     "headerDone": "DONE",
-    "description": "Post not only allows you to lose weight, but also has a positive effect on our health."
+    "description": "Physical fitness contributes to extending and increasing the quality of life more than any other factor."
   },
   "meditation": {
     "header": "MEDITATION {isDone}",
     "headerDone": "DONE",
-    "description": "Post not only allows you to lose weight, but also has a positive effect on our health."
+    "description": "Meditation for the mind is what physical exercises are for the body."
   },
   "fasting": {
     "youCanEat": "YOU CAN EAT",
     "header": "FASTING",
-    "description": "Post not only allows you to lose weight, but also has a positive effect on our health.",
+    "description": "Fasting not only allows you to lose weight, but also has a positive effect on our health.",
     "start": "START:",
     "end": "END:"
   },
   "water": {
     "header": "WATER DIARY",
-    "info": "Water is an average of 70% of the weight of an adult, about 15% more in the case of a newborn baby.",
+    "info": "Water reduces appetite, is necessary for each cell, and also has a very positive effect on the condition of the skin.",
     "subinfo": "(Current glass capacity {glassSize}ml)",
     "error": "Something went wrong when trying to add water.Try again."
   },

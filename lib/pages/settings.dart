@@ -355,7 +355,7 @@ class _SettingsState extends State<Settings> {
                 minutesKey: 'fastingStartMinutes',
               ),
               inputField(
-                header: LocaleKeys.settings_fastingLength,
+                header: LocaleKeys.settings_exerciseLength,
                 label: LocaleKeys.settings_length,
                 controller: exerciseLengthController!,
               ),
