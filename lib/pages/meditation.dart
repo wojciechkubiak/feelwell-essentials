@@ -54,6 +54,7 @@ class _MeditationState extends State<Meditation> {
 
   Future<void> handleSource() async {
     await musicPlayer.setSource(AssetSource("sound/music.mp3"));
+    await musicPlayer.setReleaseMode(ReleaseMode.loop);
     await sfxPlayer.setSource(AssetSource("sound/countdown.mp3"));
   }
 

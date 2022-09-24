@@ -36,7 +36,7 @@ class _ExerciseState extends State<Exercise> {
     handleSource();
     if (mounted) {
       setState(() {
-        timeLeft = 15;
+        timeLeft = widget.exerciseData.duration;
         isCompleted = widget.exerciseData.isCompleted == 0 ? false : true;
       });
     }
@@ -159,23 +159,26 @@ class _ExerciseState extends State<Exercise> {
                   ],
                 ),
               ),
-              Gauge(
-                valueAnnotation: printDuration(seconds: timeLeft),
-                maxValue: widget.exerciseData.duration.toDouble(),
-                value: timeLeft.toDouble(),
-                isNavigation: true,
-                isRunning: isRunning,
-                onPause: pauseTimer,
-                isPauseDisabled: isSFXRunning,
-                onPlay: () {
-                  if (mounted) setState(() => isRunning = true);
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Gauge(
+                  valueAnnotation: printDuration(seconds: timeLeft),
+                  maxValue: widget.exerciseData.duration.toDouble(),
+                  value: timeLeft.toDouble(),
+                  isNavigation: true,
+                  isRunning: isRunning,
+                  onPause: pauseTimer,
+                  isPauseDisabled: isSFXRunning,
+                  onPlay: () {
+                    if (mounted) setState(() => isRunning = true);
 
-                  timer = Timer.periodic(
-                    const Duration(seconds: 1),
-                    (Timer t) => runTimer(),
-                  );
-                },
-                onStop: stopTimer,
+                    timer = Timer.periodic(
+                      const Duration(seconds: 1),
+                      (Timer t) => runTimer(),
+                    );
+                  },
+                  onStop: stopTimer,
+                ),
               ),
             ],
           ),
